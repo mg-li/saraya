@@ -1,0 +1,24 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+@media (min-width: 1200px) {/* 1200px以上*/
+    .bar {
+        font-size: 100%;
+        line-height:1;
+    }
+}
+
+@media screen and (max-width: 640px) {/* 640px以下*/
+    body {
+        line-height: 1.2;
+    }
+    .bar {
+        font-size: 70%;
+    }
+}
