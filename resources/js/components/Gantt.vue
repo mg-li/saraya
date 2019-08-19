@@ -69,7 +69,7 @@ let tasks = [
         start: getDate(24 * 2),
         duration: 4 * 24 * 60 * 60 * 1000,
         percent: 0,
-        dependentOn: [2],
+        // dependentOn: [2],
         type: "project",
         collapsed: true,
     },
@@ -177,22 +177,22 @@ export default {
                         //     value: "type",
                         //     width: 68
                         // },
-                        {
-                            id: 5,
-                            label: "%",
-                            value: "progress",
-                            width: 35,
-                            style: {
-                                "task-list-header-label": {
-                                    "text-align": "center",
-                                    width: "100%"
-                                },
-                                "task-list-item-value-container": {
-                                    "text-align": "center",
-                                    width: "100%"
-                                }
-                            }
-                        }
+                        // {
+                        //     id: 5,
+                        //     label: "%",
+                        //     value: "progress",
+                        //     width: 35,
+                        //     style: {
+                        //         "task-list-header-label": {
+                        //             "text-align": "center",
+                        //             width: "100%"
+                        //         },
+                        //         "task-list-item-value-container": {
+                        //             "text-align": "center",
+                        //             width: "100%"
+                        //         }
+                        //     }
+                        // }
                     ]
                 },
                 locale: {

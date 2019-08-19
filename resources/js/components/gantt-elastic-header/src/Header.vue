@@ -125,7 +125,7 @@
           ></vue-slider>
         </div>
       </label> -->
-      <label
+      <!-- <label
         class="gantt-elastic__header-task-list-switch--wrapper"
         :style="{ ...style['header-task-list-switch--label'] }"
       >
@@ -135,7 +135,7 @@
           v-model="root.state.options.taskList.display"
         ></switches>
         {{ opts.locale["Display task list"] }}
-      </label>
+      </label> -->
     </div>
   </div>
 </template>

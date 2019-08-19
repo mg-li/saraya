@@ -11,7 +11,7 @@
                     <th class="align-middle text-center">ステータス</th>
                     <th class="align-middle text-center">優先度</th>
                     <th class="align-middle text-center">題名</th>
-                    <th class="align-middle text-center">担当者</th>
+                    <!-- <th class="align-middle text-center">担当者</th> -->
                     <th class="align-middle text-center">更新日</th>
                     <th class="align-middle text-center"></th>
                 </tr>
@@ -24,7 +24,7 @@
                     <td class="align-middle text-center">新規</td>
                     <td class="align-middle text-center">高い</td>
                     <td>画面設計</td>
-                    <td class="align-middle text-center">李 晴昊</td>
+                    <!-- <td class="align-middle text-center">李 晴昊</td> -->
                     <td class="align-middle text-center">2019/08/07 16:38</td>
                     <td class="align-middle text-center">・・・</td>
                 </tr>
@@ -35,7 +35,7 @@
                     <td class="align-middle text-center">新規</td>
                     <td class="align-middle text-center">高い</td>
                     <td>ガントチャート画面設計</td>
-                    <td class="align-middle text-center">李 晴昊</td>
+                    <!-- <td class="align-middle text-center">李 晴昊</td> -->
                     <td class="align-middle text-center">2019/08/07 16:38</td>
                     <td class="align-middle text-center">・・・</td>
                 </tr>
@@ -46,7 +46,7 @@
                     <td class="align-middle text-center">新規</td>
                     <td class="align-middle text-center">高い</td>
                     <td>チケット画面設計</td>
-                    <td class="align-middle text-center">李 晴昊</td>
+                    <!-- <td class="align-middle text-center">李 晴昊</td> -->
                     <td class="align-middle text-center">2019/08/07 16:38</td>
                     <td class="align-middle text-center">・・・</td>
                 </tr>
