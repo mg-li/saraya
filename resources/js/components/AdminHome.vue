@@ -1,21 +1,19 @@
 <template>
-<div class="container">
-	<div class="card text-center">
-        <div class="card-body">
+<div>
 
-        </div>
-	</div>
 </div>
 </template>
 
 <script>
+import Multiselect from 'vue-multiselect'
+Vue.component('multiselect', Multiselect)
 export default {
     props: [
         //
     ],
     data () {
         return {
-            //
+
         }
     },
     mounted () {
@@ -28,25 +26,13 @@ export default {
         //
     },
     methods: {
-        //
+
     },
+    components: { Multiselect },
 }
 </script>
-
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style lang="scss" scoped>
 @import "resources/sass/variables";
-.btn-menu {
-    height: 6rem;
-    width: 9rem;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-</style>
-<style lang="scss">
-.vdp-datepicker .form-control[readonly] {
-    background: none !important;
-    border: 1px solid #cde;
-}
+
 </style>

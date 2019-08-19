@@ -1,12 +1,38 @@
 <template>
-<div class="container-fluid">
-    <transition name="view" mode="out-in">
+<div>
+    <multiselect v-model="value" :options="options" track-by="name" label="name"></multiselect>
+    <div class="side-nav">
+        <div class="user-section">
+            <a href=""><img class="circle" src="img/admin.png">
+            <p>{{$root.name}}</p>
+            </a>
+        </div>
+
+        <div class="menu">
+            <!-- <a :class="status_home" @click="get_content_area('home')"> <i class="icon ion-ios-home"></i> 看板</a> -->
+            <a :class="status_ticket" @click="get_content_area('ticket')"> <i class="icon ion-clipboard"></i> 項目</a>
+            <a :class="status_gantt" @click="get_content_area('gantt')"> <i class="icon ion-ios-calendar"></i> スケジュール</a>
+            <a :class="" @click="get_content_area('setting')"><i class="icon ion-gear-b"></i> 設定</a>
+            <a :class="status_logout" @click="get_content_area('logout')"><i class="icon ion-android-exit"></i> Logout</a>
+        </div>
+
+        <div class="line"><hr></div>
+        <div class="footer">
+        	<p>COPYRIGHT 2019 &copy; Mountain Gorilla</p>
+        </div>
+    </div>
+
+    <div class="content-area">
         <router-view />
-    </transition>
+    </div>
+
+
 </div>
 </template>
 
 <script>
+import Multiselect from 'vue-multiselect'
+Vue.component('multiselect', Multiselect)
 export default {
      props: [
         'id',
@@ -15,7 +41,18 @@ export default {
     ],
     data () {
         return {
-
+            status_home: "active",
+            status_ticket: "",
+            status_gantt: "",
+            status_logout: "",
+            status_chat: "",
+            value: {
+                name: 'プロジェクトを検索...', id: 0
+            },
+            options: [
+                { name: 'すべてのプロジェクト', id: 1 },
+                { name: 'New プロジェクト', id: 2 },
+            ],
         }
     },
     created () {
@@ -29,26 +66,42 @@ export default {
             this.$root.id = this.id;
             this.$root.name = this.name;
             this.$root.user_type = this.user_type;
+            this.$router.push({ name: 'adminHome'});
+        },
+        get_content_area: function (pid) {
+            this.status_home = "";
+            this.status_ticket = "";
+            this.status_gantt = "";
+            this.status_logout = "";
+            this.status_chat = "";
+            switch( pid ) {
+                case 'home':
+                    this.status_home = "active";
+                    this.$router.push({ name: 'adminHome'});
+                    break;
+                case 'ticket':
+                    this.status_ticket = "active";
+                    this.$router.push({ name: 'ticket'});
+                    break;
+                case 'gantt':
+                    this.status_gantt = "active";
+                    this.$router.push({ name: 'gantt'});
+                    break;
+                case 'logout':
+                    this.status_logout = "active";
+                    document.getElementById('logout-form').submit();
+                    break;
+            }
 
-            this.$router.push({ name: 'adminHome' });
-        }
-    }
+        },
+    },
+    components: { Multiselect },
 }
 </script>
 
-<style scope>
-.nav-link {
-    transition: all .2s;
-}
-.nav-scroller a.nav-link.router-link-active {
-    background: #008c79;
-    color: white;
-}
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
-.view-enter-active, .view-leave-active {
-    transition: opacity .35s;
-}
-.view-enter, .view-leave-to {
-    opacity: 0;
-}
+<style lang="scss" scoped>
+@import "resources/sass/variables";
+
 </style>

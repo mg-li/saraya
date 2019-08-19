@@ -37,7 +37,10 @@ const router = new VueRouter({
     routes: [
         // adminホーム
         { name: 'adminHome', path: '/adminHome', component: require('./components/AdminHome.vue').default },
-
+        //チケット
+        { name: 'ticket', path: '/ticket', component: require('./components/Ticket.vue').default },
+        //ガントチャート
+        { name: 'gantt', path: '/gantt', component: require('./components/Gantt.vue').default },
     ]
 });
 /**
