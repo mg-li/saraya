@@ -1,6 +1,6 @@
 <template>
 <div>
-    <button class="btn btn-primary"> <i class="fas fa-plus"></i> チケット</button>
+    <button class="btn btn-primary"> <i class="fas fa-plus"></i> 工程・作業追加</button>
     <div class="table-responsive">
         <table class="table text-nowrap table-hover table-bordered addTop">
             <thead>

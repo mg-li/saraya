@@ -10,8 +10,8 @@
 
         <div class="menu">
             <!-- <a :class="status_home" @click="get_content_area('home')"> <i class="icon ion-ios-home"></i> 看板</a> -->
-            <a :class="status_ticket" @click="get_content_area('ticket')"> <i class="icon ion-clipboard"></i> 項目</a>
             <a :class="status_gantt" @click="get_content_area('gantt')"> <i class="icon ion-ios-calendar"></i> スケジュール</a>
+            <a :class="status_ticket" @click="get_content_area('ticket')"> <i class="icon ion-clipboard"></i> 工程・作業一覧</a>
             <a :class="" @click="get_content_area('setting')"><i class="icon ion-gear-b"></i> 設定</a>
             <a :class="status_logout" @click="get_content_area('logout')"><i class="icon ion-android-exit"></i> Logout</a>
         </div>

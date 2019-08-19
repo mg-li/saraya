@@ -1,6 +1,6 @@
 <template>
 <div>
-    <button class="btn btn-primary"> <i class="fas fa-plus"></i> チケット</button>
+    <button class="btn btn-primary"> <i class="fas fa-plus"></i> 工程・作業追加</button>
     <gantt-elastic :tasks="tasks" :options="options">
         <gantt-header slot="header"></gantt-header>
         <gantt-footer slot="footer"></gantt-footer>
@@ -135,15 +135,17 @@ export default {
                         straight: false
                     },
                     columns: [
+                        /*
                         {
                             id: 1,
                             label: "ID",
                             value: "id",
                             width: 40
                         },
+                        */
                         {
                             id: 2,
-                            label: "タスク名称",
+                            label: "工程・作業",
                             value: "label",
                             width: 200,
                             expander: true,
@@ -154,6 +156,7 @@ export default {
                                 }
                             }
                         },
+                        /*
                         {
                             id: 3,
                             label: "担当者",
@@ -161,11 +164,12 @@ export default {
                             width: 80,
                             html: true
                         },
+                        */
                         {
                             id: 3,
-                            label: "開始時間",
-                            value: task => dayjs(task.start).format("YYYY-MM-DD"),
-                            width: 100
+                            label: "期間",
+                            value: task => dayjs(task.start).format("YYYY-MM-DD") + "～ " + dayjs(task.end).format("YYYY-MM-DD"),
+                            width: 200
                         },
                         // {
                         //     id: 4,
