@@ -168,7 +168,7 @@ export default {
                         {
                             id: 3,
                             label: "期間",
-                            value: task => dayjs(task.start).format("YYYY-MM-DD") + "～ " + dayjs(task.end).format("YYYY-MM-DD"),
+                            value: task => dayjs(task.start).format("YYYY-MM-DD") + "～ " + dayjs(task.start + task.duration).format("YYYY-MM-DD"),
                             width: 200
                         },
                         // {

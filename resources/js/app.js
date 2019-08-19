@@ -41,6 +41,8 @@ const router = new VueRouter({
         { name: 'ticket', path: '/ticket', component: require('./components/Ticket.vue').default },
         //ガントチャート
         { name: 'gantt', path: '/gantt', component: require('./components/Gantt.vue').default },
+
+        { name: 'setting', path: '/setting', component: require('./components/Setting.vue').default },
     ]
 });
 /**
