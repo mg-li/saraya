@@ -3,9 +3,9 @@
     <multiselect v-model="value" :options="options" track-by="name" label="name"></multiselect>
     <div class="side-nav">
         <div class="user-section">
-            <a href=""><img class="circle" src="img/admin.png">
+            <!-- <a href=""><img class="circle" src="img/admin.png"> -->
             <p>{{$root.name}}</p>
-            </a>
+            <!-- </a> -->
         </div>
 
         <div class="menu">
