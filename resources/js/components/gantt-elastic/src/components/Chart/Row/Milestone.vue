@@ -30,6 +30,10 @@
     >
       <expander :tasks="[task]" :options="root.state.options.chart.expander" type="chart"></expander>
     </foreignObject>
+    <g class="handle-group">
+        <rect class="handle left" :x="task.x" :y="task.y + 1" width="8" :height="task.height - 2" rx="3" ry="3"></rect>
+        <rect class="handle right" :x="task.x + task.width - 8" :y="task.y + 1" width="8" :height="task.height - 2" rx="3" ry="3"></rect>
+    </g>
     <svg
       class="gantt-elastic__chart-row-bar gantt-elastic__chart-row-milestone"
       :style="{ ...root.style['chart-row-bar'], ...root.style['chart-row-milestone'], ...task.style['chart-row-bar'] }"
@@ -69,6 +73,7 @@
       <progress-bar :task="task" :clip-path="'url(#' + clipPathId + ')'"></progress-bar>
     </svg>
     <chart-text :task="task" v-if="root.state.options.chart.text.display"></chart-text>
+
   </g>
 </template>
 
@@ -122,3 +127,31 @@ export default {
   }
 };
 </script>
+<style>
+.gantt-elastic__chart-row-bar-wrapper{
+    cursor: pointer;
+    outline: none;
+    position: relative;
+}
+.handle {
+  fill: #dd6b3d;
+  cursor: ew-resize;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease;
+  position: relative;
+}
+.gantt-elastic__chart-row-bar-wrapper:hover .gantt-elastic__chart-row-milestone{
+  opacity: 0.8;
+  position: relative;
+  z-index: 0;
+}
+.gantt-elastic__chart-row-bar-wrapper:hover .handle {
+  opacity: 1;
+  position: relative;
+  z-index: 999;
+  fill: #14001a;
+  visibility: visible;
+}
+
+</style>

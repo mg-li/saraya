@@ -9,12 +9,12 @@
                 </div>
                 <div class="d-flex justify-content-center mb-2">
 
-
                 </div>
                 <div class="d-flex justify-content-center mb-2">
 
                 </div>
     			<div class="d-flex justify-content-center mb-2">
+
                 </div>
             </div>
     	</div>

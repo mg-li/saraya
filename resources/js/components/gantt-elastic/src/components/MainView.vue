@@ -239,40 +239,41 @@ export default {
      * When in drag scrolling mode this method calculate scroll movement
      */
     chartMouseMove(ev) {
-      if (this.root.state.options.scroll.scrolling) {
-        ev.preventDefault();
-        ev.stopImmediatePropagation();
-        ev.stopPropagation();
-        const touch = typeof ev.touches !== 'undefined';
-        let movementX, movementY;
-        if (touch) {
-          const screenX = ev.touches[0].screenX;
-          const screenY = ev.touches[0].screenY;
-          movementX = this.mousePos.x - screenX;
-          movementY = this.mousePos.y - screenY;
-          this.mousePos.lastX = screenX;
-          this.mousePos.lastY = screenY;
-        } else {
-          movementX = ev.movementX;
-          movementY = ev.movementY;
-        }
-        const horizontal = this.$refs.chartScrollContainerHorizontal;
-        const vertical = this.$refs.chartScrollContainerVertical;
-        let x = 0,
-          y = 0;
-        if (touch) {
-          x = this.mousePos.currentX + movementX * this.root.state.options.scroll.dragXMoveMultiplier;
-        } else {
-          x = horizontal.scrollLeft - movementX * this.root.state.options.scroll.dragXMoveMultiplier;
-        }
-        horizontal.scrollLeft = x;
-        if (touch) {
-          y = this.mousePos.currentY + movementY * this.root.state.options.scroll.dragYMoveMultiplier;
-        } else {
-          y = vertical.scrollTop - movementY * this.root.state.options.scroll.dragYMoveMultiplier;
-        }
-        vertical.scrollTop = y;
-      }
+      //   console.log("xx")
+      // if (this.root.state.options.scroll.scrolling) {
+      //   ev.preventDefault();
+      //   ev.stopImmediatePropagation();
+      //   ev.stopPropagation();
+      //   const touch = typeof ev.touches !== 'undefined';
+      //   let movementX, movementY;
+      //   if (touch) {
+      //     const screenX = ev.touches[0].screenX;
+      //     const screenY = ev.touches[0].screenY;
+      //     movementX = this.mousePos.x - screenX;
+      //     movementY = this.mousePos.y - screenY;
+      //     this.mousePos.lastX = screenX;
+      //     this.mousePos.lastY = screenY;
+      //   } else {
+      //     movementX = ev.movementX;
+      //     movementY = ev.movementY;
+      //   }
+      //   const horizontal = this.$refs.chartScrollContainerHorizontal;
+      //   const vertical = this.$refs.chartScrollContainerVertical;
+      //   let x = 0,
+      //     y = 0;
+      //   if (touch) {
+      //     x = this.mousePos.currentX + movementX * this.root.state.options.scroll.dragXMoveMultiplier;
+      //   } else {
+      //     x = horizontal.scrollLeft - movementX * this.root.state.options.scroll.dragXMoveMultiplier;
+      //   }
+      //   horizontal.scrollLeft = x;
+      //   if (touch) {
+      //     y = this.mousePos.currentY + movementY * this.root.state.options.scroll.dragYMoveMultiplier;
+      //   } else {
+      //     y = vertical.scrollTop - movementY * this.root.state.options.scroll.dragYMoveMultiplier;
+      //   }
+      //   vertical.scrollTop = y;
+      // }
     }
   },
 

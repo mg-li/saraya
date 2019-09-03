@@ -603,7 +603,6 @@ const GanttElastic = {
      * Initialize component
      */
     initialize(itsUpdate = '') {
-      console.log(this.options)
       let options = mergeDeep({}, this.state.options, getOptions(this.options), this.options);
       let tasks = this.mapTasks(this.tasks, options);
       if (Object.keys(this.state.dynamicStyle).length === 0) {

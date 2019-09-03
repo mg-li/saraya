@@ -1084,7 +1084,7 @@ module.exports = g;
 /* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_GanttElastic_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_GanttElastic_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_GanttElastic_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_GanttElastic_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_GanttElastic_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a);
 
 /***/ }),
 /* 6 */
@@ -1791,7 +1791,7 @@ Expandervue_type_template_id_09a21177_render._withStripped = true
 });
 
 // CONCATENATED MODULE: ./src/components/Expander.vue?vue&type=script&lang=js&
- /* harmony default export */ var components_Expandervue_type_script_lang_js_ = (Expandervue_type_script_lang_js_); 
+ /* harmony default export */ var components_Expandervue_type_script_lang_js_ = (Expandervue_type_script_lang_js_);
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
 
@@ -1903,7 +1903,7 @@ var component = normalizeComponent(
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -2082,7 +2082,7 @@ component.options.__file = "src/components/Expander.vue"
 });
 
 // CONCATENATED MODULE: ./src/components/TaskList/TaskListHeader.vue?vue&type=script&lang=js&
- /* harmony default export */ var TaskList_TaskListHeadervue_type_script_lang_js_ = (TaskListHeadervue_type_script_lang_js_); 
+ /* harmony default export */ var TaskList_TaskListHeadervue_type_script_lang_js_ = (TaskListHeadervue_type_script_lang_js_);
 // CONCATENATED MODULE: ./src/components/TaskList/TaskListHeader.vue
 
 
@@ -2099,7 +2099,7 @@ var TaskListHeader_component = normalizeComponent(
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -2401,7 +2401,7 @@ ItemColumnvue_type_template_id_cb5a6c96_render._withStripped = true
 });
 
 // CONCATENATED MODULE: ./src/components/TaskList/ItemColumn.vue?vue&type=script&lang=js&
- /* harmony default export */ var TaskList_ItemColumnvue_type_script_lang_js_ = (ItemColumnvue_type_script_lang_js_); 
+ /* harmony default export */ var TaskList_ItemColumnvue_type_script_lang_js_ = (ItemColumnvue_type_script_lang_js_);
 // CONCATENATED MODULE: ./src/components/TaskList/ItemColumn.vue
 
 
@@ -2418,7 +2418,7 @@ var ItemColumn_component = normalizeComponent(
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -2469,7 +2469,7 @@ ItemColumn_component.options.__file = "src/components/TaskList/ItemColumn.vue"
 });
 
 // CONCATENATED MODULE: ./src/components/TaskList/TaskListItem.vue?vue&type=script&lang=js&
- /* harmony default export */ var TaskList_TaskListItemvue_type_script_lang_js_ = (TaskListItemvue_type_script_lang_js_); 
+ /* harmony default export */ var TaskList_TaskListItemvue_type_script_lang_js_ = (TaskListItemvue_type_script_lang_js_);
 // CONCATENATED MODULE: ./src/components/TaskList/TaskListItem.vue
 
 
@@ -2486,7 +2486,7 @@ var TaskListItem_component = normalizeComponent(
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -2547,7 +2547,7 @@ TaskListItem_component.options.__file = "src/components/TaskList/TaskListItem.vu
 });
 
 // CONCATENATED MODULE: ./src/components/TaskList/TaskList.vue?vue&type=script&lang=js&
- /* harmony default export */ var TaskList_TaskListvue_type_script_lang_js_ = (TaskListvue_type_script_lang_js_); 
+ /* harmony default export */ var TaskList_TaskListvue_type_script_lang_js_ = (TaskListvue_type_script_lang_js_);
 // CONCATENATED MODULE: ./src/components/TaskList/TaskList.vue
 
 
@@ -2564,7 +2564,7 @@ var TaskList_component = normalizeComponent(
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -2936,7 +2936,7 @@ Gridvue_type_template_id_2bf979a7_render._withStripped = true
 });
 
 // CONCATENATED MODULE: ./src/components/Chart/Grid.vue?vue&type=script&lang=js&
- /* harmony default export */ var Chart_Gridvue_type_script_lang_js_ = (Gridvue_type_script_lang_js_); 
+ /* harmony default export */ var Chart_Gridvue_type_script_lang_js_ = (Gridvue_type_script_lang_js_);
 // CONCATENATED MODULE: ./src/components/Chart/Grid.vue
 
 
@@ -2953,7 +2953,7 @@ var Grid_component = normalizeComponent(
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -3081,7 +3081,7 @@ DaysHighlightvue_type_template_id_1bfe64e8_render._withStripped = true
 });
 
 // CONCATENATED MODULE: ./src/components/Chart/DaysHighlight.vue?vue&type=script&lang=js&
- /* harmony default export */ var Chart_DaysHighlightvue_type_script_lang_js_ = (DaysHighlightvue_type_script_lang_js_); 
+ /* harmony default export */ var Chart_DaysHighlightvue_type_script_lang_js_ = (DaysHighlightvue_type_script_lang_js_);
 // CONCATENATED MODULE: ./src/components/Chart/DaysHighlight.vue
 
 
@@ -3098,7 +3098,7 @@ var DaysHighlight_component = normalizeComponent(
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -3320,7 +3320,7 @@ CalendarRowvue_type_template_id_0daf06fb_render._withStripped = true
 });
 
 // CONCATENATED MODULE: ./src/components/Calendar/CalendarRow.vue?vue&type=script&lang=js&
- /* harmony default export */ var Calendar_CalendarRowvue_type_script_lang_js_ = (CalendarRowvue_type_script_lang_js_); 
+ /* harmony default export */ var Calendar_CalendarRowvue_type_script_lang_js_ = (CalendarRowvue_type_script_lang_js_);
 // CONCATENATED MODULE: ./src/components/Calendar/CalendarRow.vue
 
 
@@ -3337,7 +3337,7 @@ var CalendarRow_component = normalizeComponent(
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -3685,7 +3685,7 @@ CalendarRow_component.options.__file = "src/components/Calendar/CalendarRow.vue"
 });
 
 // CONCATENATED MODULE: ./src/components/Calendar/Calendar.vue?vue&type=script&lang=js&
- /* harmony default export */ var Calendar_Calendarvue_type_script_lang_js_ = (Calendarvue_type_script_lang_js_); 
+ /* harmony default export */ var Calendar_Calendarvue_type_script_lang_js_ = (Calendarvue_type_script_lang_js_);
 // CONCATENATED MODULE: ./src/components/Calendar/Calendar.vue
 
 
@@ -3702,7 +3702,7 @@ var Calendar_component = normalizeComponent(
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -3873,7 +3873,7 @@ DependencyLinesvue_type_template_id_f1cbf6ba_render._withStripped = true
 });
 
 // CONCATENATED MODULE: ./src/components/Chart/DependencyLines.vue?vue&type=script&lang=js&
- /* harmony default export */ var Chart_DependencyLinesvue_type_script_lang_js_ = (DependencyLinesvue_type_script_lang_js_); 
+ /* harmony default export */ var Chart_DependencyLinesvue_type_script_lang_js_ = (DependencyLinesvue_type_script_lang_js_);
 // CONCATENATED MODULE: ./src/components/Chart/DependencyLines.vue
 
 
@@ -3890,7 +3890,7 @@ var DependencyLines_component = normalizeComponent(
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -4237,7 +4237,7 @@ Textvue_type_template_id_459c2fe4_render._withStripped = true
 });
 
 // CONCATENATED MODULE: ./src/components/Chart/Text.vue?vue&type=script&lang=js&
- /* harmony default export */ var Chart_Textvue_type_script_lang_js_ = (Textvue_type_script_lang_js_); 
+ /* harmony default export */ var Chart_Textvue_type_script_lang_js_ = (Textvue_type_script_lang_js_);
 // CONCATENATED MODULE: ./src/components/Chart/Text.vue
 
 
@@ -4254,7 +4254,7 @@ var Text_component = normalizeComponent(
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -4477,7 +4477,7 @@ ProgressBarvue_type_template_id_4bc39355_render._withStripped = true
 });
 
 // CONCATENATED MODULE: ./src/components/Chart/ProgressBar.vue?vue&type=script&lang=js&
- /* harmony default export */ var Chart_ProgressBarvue_type_script_lang_js_ = (ProgressBarvue_type_script_lang_js_); 
+ /* harmony default export */ var Chart_ProgressBarvue_type_script_lang_js_ = (ProgressBarvue_type_script_lang_js_);
 // CONCATENATED MODULE: ./src/components/Chart/ProgressBar.vue
 
 
@@ -4494,7 +4494,7 @@ var ProgressBar_component = normalizeComponent(
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -4671,7 +4671,7 @@ ProgressBar_component.options.__file = "src/components/Chart/ProgressBar.vue"
 });
 
 // CONCATENATED MODULE: ./src/components/Chart/Row/Task.vue?vue&type=script&lang=js&
- /* harmony default export */ var Row_Taskvue_type_script_lang_js_ = (Taskvue_type_script_lang_js_); 
+ /* harmony default export */ var Row_Taskvue_type_script_lang_js_ = (Taskvue_type_script_lang_js_);
 // CONCATENATED MODULE: ./src/components/Chart/Row/Task.vue
 
 
@@ -4688,7 +4688,7 @@ var Task_component = normalizeComponent(
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -4976,7 +4976,7 @@ Milestonevue_type_template_id_3013006c_render._withStripped = true
 });
 
 // CONCATENATED MODULE: ./src/components/Chart/Row/Milestone.vue?vue&type=script&lang=js&
- /* harmony default export */ var Row_Milestonevue_type_script_lang_js_ = (Milestonevue_type_script_lang_js_); 
+ /* harmony default export */ var Row_Milestonevue_type_script_lang_js_ = (Milestonevue_type_script_lang_js_);
 // CONCATENATED MODULE: ./src/components/Chart/Row/Milestone.vue
 
 
@@ -4993,7 +4993,7 @@ var Milestone_component = normalizeComponent(
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -5295,7 +5295,7 @@ Projectvue_type_template_id_077bbd73_render._withStripped = true
 });
 
 // CONCATENATED MODULE: ./src/components/Chart/Row/Project.vue?vue&type=script&lang=js&
- /* harmony default export */ var Row_Projectvue_type_script_lang_js_ = (Projectvue_type_script_lang_js_); 
+ /* harmony default export */ var Row_Projectvue_type_script_lang_js_ = (Projectvue_type_script_lang_js_);
 // CONCATENATED MODULE: ./src/components/Chart/Row/Project.vue
 
 
@@ -5312,7 +5312,7 @@ var Project_component = normalizeComponent(
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -5439,7 +5439,7 @@ Project_component.options.__file = "src/components/Chart/Row/Project.vue"
 });
 
 // CONCATENATED MODULE: ./src/components/Chart/Chart.vue?vue&type=script&lang=js&
- /* harmony default export */ var Chart_Chartvue_type_script_lang_js_ = (Chartvue_type_script_lang_js_); 
+ /* harmony default export */ var Chart_Chartvue_type_script_lang_js_ = (Chartvue_type_script_lang_js_);
 // CONCATENATED MODULE: ./src/components/Chart/Chart.vue
 
 
@@ -5456,7 +5456,7 @@ var Chart_component = normalizeComponent(
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -5754,7 +5754,7 @@ let ignoreScrollEvents = false;
 });
 
 // CONCATENATED MODULE: ./src/components/MainView.vue?vue&type=script&lang=js&
- /* harmony default export */ var components_MainViewvue_type_script_lang_js_ = (MainViewvue_type_script_lang_js_); 
+ /* harmony default export */ var components_MainViewvue_type_script_lang_js_ = (MainViewvue_type_script_lang_js_);
 // CONCATENATED MODULE: ./src/components/MainView.vue
 
 
@@ -5771,7 +5771,7 @@ var MainView_component = normalizeComponent(
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
@@ -7692,7 +7692,7 @@ const GanttElastic = {
 /* harmony default export */ var GanttElasticvue_type_script_lang_js_ = (GanttElastic);
 
 // CONCATENATED MODULE: ./src/GanttElastic.vue?vue&type=script&lang=js&
- /* harmony default export */ var src_GanttElasticvue_type_script_lang_js_ = (GanttElasticvue_type_script_lang_js_); 
+ /* harmony default export */ var src_GanttElasticvue_type_script_lang_js_ = (GanttElasticvue_type_script_lang_js_);
 // EXTERNAL MODULE: ./src/GanttElastic.vue?vue&type=style&index=0&lang=css&
 var GanttElasticvue_type_style_index_0_lang_css_ = __webpack_require__(5);
 
@@ -7716,7 +7716,7 @@ var GanttElastic_component = normalizeComponent(
   null,
   null,
   null
-  
+
 )
 
 /* hot reload */
