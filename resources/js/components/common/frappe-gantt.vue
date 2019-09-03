@@ -3,7 +3,7 @@
 
         <div style="display:flex;margin-top: 50px;">
             <div style="min-width:315px;max-width: 315px;witdh:99%;overflow-y:hidden;overflow-x:hidden;max-height:570px;">
-                <table class="table table-striped table-hover table-bordered" >
+                <table class="table table-striped table-hover table-bordered gantt-table" >
                     <thead>
                         <tr style="height:50px;">
                             <th style="max-width:310px;min-width:310px;border-bottom: none;">工程・作業</th>
@@ -24,7 +24,7 @@
         </div>
         <template v-for="(task,index) in tasks">
             <div class="task-popup" :style="style" v-if="clicked_task_id == task.id" @click="hid_popup()">
-                {{task.name}}<br style="border:solid;">
+                {{task.name}}<br>
                 開始： {{task.start}}<br>
                 終了： {{task.end}}
             </div>
@@ -131,7 +131,7 @@ export default {
 body{
     overflow-y: hidden;
 }
-thead:after {
+.gantt-table > thead:after {
 	content: "";
 	height: 8.5px;
 	width: 100%;
@@ -141,15 +141,15 @@ thead:after {
     border-bottom-width: 0.1px;
     border-bottom-color: #dee2e6;
 }
-thead, tbody {
+.gantt-table > thead, .gantt-table > tbody {
   display: block;
 }
-tbody {
+.gantt-table > tbody {
     overflow-x: hidden;
     overflow-y: hidden;
     max-height:495px;
 }
-th, td {
+.gantt-table > th, .gantt-table > td {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

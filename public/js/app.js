@@ -1789,13 +1789,28 @@ __webpack_require__.r(__webpack_exports__);
           end: '2019-03-20',
           progress: 40,
           belongsto: 1,
-          sub__sub_tasks: [{
+          sub_sub_tasks: [{
             id: '1',
             name: '処方検討',
             start: '2019-01-01',
             end: '2019-01-31',
             progress: 40,
-            belongsto: 1
+            belongsto: 1,
+            sub_sub_sub_tasks: [{
+              id: '1',
+              name: '小項目1',
+              start: '2019-01-01',
+              end: '2019-01-05',
+              progress: 40,
+              belongsto: 1
+            }, {
+              id: '2',
+              name: '小項目2',
+              start: '2019-01-05',
+              end: '2019-01-10',
+              progress: 40,
+              belongsto: 1
+            }]
           }, {
             id: '2',
             name: '実使用アンケート(絶対評価)',
@@ -1849,6 +1864,22 @@ __webpack_require__.r(__webpack_exports__);
 
       }, {
         id: '4',
+        name: '小項目1',
+        start: '2019-01-01',
+        end: '2019-01-08',
+        progress: 40,
+        belongsto: 3,
+        mode: 4
+      }, {
+        id: '5',
+        name: '小項目2',
+        start: '2019-01-08',
+        end: '2019-01-31',
+        progress: 40,
+        belongsto: 3,
+        mode: 4
+      }, {
+        id: '6',
         name: '実使用アンケート(絶対評価)',
         start: '2019-01-31',
         end: '2019-02-20',
@@ -1857,16 +1888,16 @@ __webpack_require__.r(__webpack_exports__);
         mode: 3,
         dependencies: '3'
       }, {
-        id: '5',
+        id: '7',
         name: '商品の性能評価',
         start: '2019-02-20',
         end: '2019-03-20',
         progress: 40,
         belongsto: 2,
         mode: 3,
-        dependencies: '4'
+        dependencies: '6'
       }, {
-        id: '6',
+        id: '8',
         name: '容器',
         start: '2019-03-20',
         end: '2019-08-20',
@@ -1874,7 +1905,7 @@ __webpack_require__.r(__webpack_exports__);
         belongsto: 1,
         mode: 2
       }, {
-        id: '7',
+        id: '9',
         name: '落下試験',
         start: '2019-08-20',
         end: '2019-12-01',
@@ -40460,7 +40491,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 exports.i(__webpack_require__(/*! -!../../../../node_modules/css-loader!./frappe-gantt/dist/frappe-gantt.css */ "./node_modules/css-loader/index.js!./resources/js/components/common/frappe-gantt/dist/frappe-gantt.css"), "");
 
 // module
-exports.push([module.i, "body {\n  overflow-y: hidden;\n}\nthead:after {\n  content: \"\";\n  height: 8.5px;\n  width: 100%;\n  padding: 2px 0;\n  display: block;\n  border-bottom-style: solid;\n  border-bottom-width: 0.1px;\n  border-bottom-color: #dee2e6;\n}\nthead, tbody {\n  display: block;\n}\ntbody {\n  overflow-x: hidden;\n  overflow-y: hidden;\n  max-height: 495px;\n}\nth, td {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\ntable.table-hover tbody tr td:hover {\n  background-color: #c7c3c3;\n}\n.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {\n  background-color: white;\n}\n.task-popup {\n  background: #0d344f;\n  color: #fff;\n  border-radius: 2px;\n  padding: 10px;\n  position: absolute;\n  z-index: 50;\n  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.07);\n  background-color: rgba(0, 0, 0, 0.8);\n  opacity: 1;\n  border-left: 1px solid rgba(0, 0, 0, 0.07);\n  border-top: 1px solid rgba(0, 0, 0, 0.07);\n  font-family: Arial;\n  font-size: 8pt;\n  color: #dfe2e5;\n}", ""]);
+exports.push([module.i, "body {\n  overflow-y: hidden;\n}\n.gantt-table > thead:after {\n  content: \"\";\n  height: 8.5px;\n  width: 100%;\n  padding: 2px 0;\n  display: block;\n  border-bottom-style: solid;\n  border-bottom-width: 0.1px;\n  border-bottom-color: #dee2e6;\n}\n.gantt-table > thead, .gantt-table > tbody {\n  display: block;\n}\n.gantt-table > tbody {\n  overflow-x: hidden;\n  overflow-y: hidden;\n  max-height: 495px;\n}\n.gantt-table > th, .gantt-table > td {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\ntable.table-hover tbody tr td:hover {\n  background-color: #c7c3c3;\n}\n.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {\n  background-color: white;\n}\n.task-popup {\n  background: #0d344f;\n  color: #fff;\n  border-radius: 2px;\n  padding: 10px;\n  position: absolute;\n  z-index: 50;\n  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.07);\n  background-color: rgba(0, 0, 0, 0.8);\n  opacity: 1;\n  border-left: 1px solid rgba(0, 0, 0, 0.07);\n  border-top: 1px solid rgba(0, 0, 0, 0.07);\n  font-family: Arial;\n  font-size: 8pt;\n  color: #dfe2e5;\n}", ""]);
 
 // exports
 
@@ -77600,7 +77631,10 @@ var render = function() {
           [
             _c(
               "table",
-              { staticClass: "table table-striped table-hover table-bordered" },
+              {
+                staticClass:
+                  "table table-striped table-hover table-bordered gantt-table"
+              },
               [
                 _vm._m(0),
                 _vm._v(" "),
@@ -77657,7 +77691,7 @@ var render = function() {
                 },
                 [
                   _vm._v("\n            " + _vm._s(task.name)),
-                  _c("br", { staticStyle: { border: "solid" } }),
+                  _c("br"),
                   _vm._v("\n            開始： " + _vm._s(task.start)),
                   _c("br"),
                   _vm._v(

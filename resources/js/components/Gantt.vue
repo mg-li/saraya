@@ -55,7 +55,7 @@ export default {
                             end: '2019-03-20',
                             progress: 40,
                             belongsto: 1,
-                            sub__sub_tasks: [
+                            sub_sub_tasks: [
                                 {
                                     id: '1',
                                     name: '処方検討',
@@ -63,6 +63,24 @@ export default {
                                     end: '2019-01-31',
                                     progress: 40,
                                     belongsto: 1,
+                                    sub_sub_sub_tasks: [
+                                        {
+                                            id: '1',
+                                            name: '小項目1',
+                                            start: '2019-01-01',
+                                            end: '2019-01-05',
+                                            progress: 40,
+                                            belongsto: 1,
+                                        },
+                                        {
+                                            id: '2',
+                                            name: '小項目2',
+                                            start: '2019-01-05',
+                                            end: '2019-01-10',
+                                            progress: 40,
+                                            belongsto: 1,
+                                        },
+                                    ],
                                 },
                                 {
                                     id: '2',
@@ -125,6 +143,24 @@ export default {
                 },
                 {
                     id: '4',
+                    name: '小項目1',
+                    start: '2019-01-01',
+                    end: '2019-01-08',
+                    progress: 40,
+                    belongsto: 3,
+                    mode: 4,
+                },
+                {
+                    id: '5',
+                    name: '小項目2',
+                    start: '2019-01-08',
+                    end: '2019-01-31',
+                    progress: 40,
+                    belongsto: 3,
+                    mode: 4,
+                },
+                {
+                    id: '6',
                     name: '実使用アンケート(絶対評価)',
                     start: '2019-01-31',
                     end: '2019-02-20',
@@ -134,17 +170,17 @@ export default {
                     dependencies: '3'
                 },
                 {
-                    id: '5',
+                    id: '7',
                     name: '商品の性能評価',
                     start: '2019-02-20',
                     end: '2019-03-20',
                     progress: 40,
                     belongsto: 2,
                     mode: 3,
-                    dependencies: '4'
+                    dependencies: '6'
                 },
                 {
-                    id: '6',
+                    id: '8',
                     name: '容器',
                     start: '2019-03-20',
                     end: '2019-08-20',
@@ -153,7 +189,7 @@ export default {
                     mode: 2,
                 },
                 {
-                    id: '7',
+                    id: '9',
                     name: '落下試験',
                     start: '2019-08-20',
                     end: '2019-12-01',
