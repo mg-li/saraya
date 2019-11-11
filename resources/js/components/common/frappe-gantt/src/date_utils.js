@@ -113,6 +113,7 @@ export default {
     },
 
     format(date, format_string = 'YYYY-MM-DD HH:mm:ss.SSS', lang = 'en') {
+        // console.log(this.get_date_values(date));
         const values = this.get_date_values(date).map(d => padStart(d, 2, 0));
         const format_map = {
             YYYY: values[0],
@@ -272,6 +273,8 @@ function padStart(str, targetLength, padString) {
         if (targetLength > padString.length) {
             padString += padString.repeat(targetLength / padString.length);
         }
+        // console.log(padString.slice(0, targetLength) + String(str));
         return padString.slice(0, targetLength) + String(str);
+
     }
 }

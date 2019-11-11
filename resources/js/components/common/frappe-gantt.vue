@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <div style="display:flex;margin-top: 50px;">
             <div style="min-width:315px;max-width: 315px;witdh:99%;overflow-y:hidden;overflow-x:hidden;max-height:570px;">
                 <table class="table table-striped table-hover table-bordered gantt-table" >

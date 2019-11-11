@@ -15,7 +15,7 @@
         @task-progress-change="debugEventLog.push($event)"
     />
 
-    <!-- <div>
+    <div>
         <h5></h5>
         <ul>
             <li
@@ -24,7 +24,7 @@
                     {{ event }}
             </li>
         </ul>
-    </div> -->
+    </div>
 
 </div>
 </template>

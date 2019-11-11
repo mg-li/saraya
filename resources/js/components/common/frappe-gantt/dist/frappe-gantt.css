@@ -6,7 +6,22 @@
   stroke: #e0e0e0;
   stroke-width: 1.4;
   overflow-y: hidden;
-
+}
+.grid-header {
+  fill: #f2f4f3;
+  stroke: #e0e0e0;
+  stroke-width: 1.4;
+  overflow-y: hidden;
+}
+.title-row {
+  fill: #ffffff;
+  stroke: #e0e0e0;
+  stroke-width: 0.9;
+  overflow-y: hidden;
+}
+.title-text {
+  font-size: 12px;
+  fill: #333;
 }
 /* .gantt-header{
     display: flex;
@@ -19,7 +34,7 @@
 
 .gantt-body {
     overflow-y: scroll;
-    max-height: 520px;
+    max-height: 538px;
     display: flex;
 }
 .table_hearder_title {
@@ -94,11 +109,18 @@
     text-anchor: start; }
 
 .gantt .handle {
-  fill: #ddd;
+  fill: #FFFF00;
   cursor: ew-resize;
   opacity: 0;
   visibility: hidden;
   transition: opacity .3s ease; }
+
+  .gantt .polygon {
+    fill: #FFFF55;
+    cursor: ew-resize;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s ease; }
 
 .gantt .bar-wrapper {
   cursor: pointer;
@@ -108,6 +130,9 @@
   .gantt .bar-wrapper:hover .bar-progress {
     fill: #8a8aff; }
   .gantt .bar-wrapper:hover .handle {
+    visibility: visible;
+    opacity: 1; }
+  .gantt .bar-wrapper:hover .polygon {
     visibility: visible;
     opacity: 1; }
   .gantt .bar-wrapper.active .bar {
@@ -154,4 +179,5 @@
       height: 5px;
       margin: 0 0 0 -5px;
       border: 5px solid transparent;
-      border-top-color: rgba(0, 0, 0, 0.8); }
+      border-top-color: rgba(0, 0, 0, 0.8);
+  }

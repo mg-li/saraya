@@ -10,9 +10,9 @@
 
         <div class="menu">
             <!-- <a :class="status_home" @click="get_content_area('home')"> <i class="icon ion-ios-home"></i> 看板</a> -->
-            <a :class="status_gantt" @click="get_content_area('gantt')"> <i class="icon ion-ios-calendar"></i> スケジュール</a>
-            <a :class="status_gantt2" @click="get_content_area('gantt2')"> <i class="icon ion-ios-calendar"></i> スケジュール2</a>
-            <!-- <a :class="status_gantt3" @click="get_content_area('gantt3')"> <i class="icon ion-ios-calendar"></i> スケジュール3</a> -->
+            <a :class="status_gantt" @click="get_content_area('gantt')"> <i class="icon ion-ios-calendar"></i> スケジュールテスト</a>
+            <!-- <a :class="status_gantt2" @click="get_content_area('gantt2')"> <i class="icon ion-ios-calendar"></i> スケジュール2</a> -->
+            <a :class="status_gantt3" @click="get_content_area('gantt3')"> <i class="icon ion-ios-calendar"></i> スケジュール</a>
             <a :class="status_ticket" @click="get_content_area('ticket')"> <i class="icon ion-clipboard"></i> 工程・作業一覧</a>
             <a :class="status_setting" @click="get_content_area('setting')"><i class="icon ion-gear-b"></i> 設定</a>
             <a :class="status_logout" @click="get_content_area('logout')"><i class="icon ion-android-exit"></i> Logout</a>
@@ -119,7 +119,7 @@ export default {
 }
 </script>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<!-- <style src="vue-multiselect/dist/vue-multiselect.min.css"></style> -->
 
 <style lang="scss" scoped>
 @import "resources/sass/variables";

@@ -901,6 +901,7 @@ export default class Gantt {
     }
 
     get_snap_position(dx) {
+        // console.log(dx);
         let odx = dx,
             rem,
             position;
@@ -915,6 +916,7 @@ export default class Gantt {
                     : this.options.column_width / 7);
         } else if (this.view_is('Month')) {
             rem = dx % (this.options.column_width / 30);
+            console.log(odx + '@@@@' + rem);
             position =
                 odx -
                 rem +
