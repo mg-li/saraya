@@ -1,10 +1,10 @@
 <template>
     <div class="gantt-header">
         <div class="hearder-svg-wrapper" id="hearder-svg-wrapper">
-            <svg class="gantt-header" :width="compute_width()" :height="option.header_height">
+            <svg class="gantt-header" :width="compute_width() + 20" :height="$store.getters.getHeaderHeight">
                 <g class="date">
-                    <rect x="0" y="0" :width="compute_width()" :height="option.header_height" class="grid-header"></rect>
-                    <template v-for="(d, index) in dates_display">
+                    <rect x="0" y="0" :width="compute_width()" :height="$store.getters.getHeaderHeight" class="grid-header"></rect>
+                    <template v-for="(d, index) in get_dates_to_draw">
                         <text :x="d.lower_x" :y="d.lower_y - 5" class="lower-text">{{d.lower_text}}</text>
                         <text :x="d.upper_x" :y="d.upper_y - 5" class="upper-text" v-if="d.upper_text">{{d.upper_text}}</text>
                     </template>
@@ -20,46 +20,60 @@
         // Options / Data
         data () {
             return {
-                dates: [],
-                dates_display: [],
-                gantt_start: this.$store.getters.getGanttStart,
-                gantt_end: this.$store.getters.getGanttEnd,
-                count_gantt_days: 0,
                 month_names:['01月','02月','03月','04月','05月','06月','07月','08月','09月','10月','11月','12月'],
             }
         },
-        props: ['option'],
-        computed: {},
-        methods: {
-            //カレンダの配列を作る 一応年～時間まで対応
-            make_dates_arr: function() {
-                this.dates = [];
-                let cur_date = null;
+        props: [],
+        computed: {
+            get_dates_to_draw () {
+                let last_date = null;
+                const dates_arr = this.$store.getters.getDates.map((date, i) => {
+                    const d = this.get_date_info(date, last_date, i);
+                    last_date = date;
+                    return d;
+                });
 
-                while (cur_date === null || cur_date < this.gantt_end) {
+                return dates_arr;
+            },
+            count_gantt_days () {
+                this.make_dates_arr();
+                return this.$store.getters.getCountGanttDays;
+            },
+        },
+        methods: {
+            //カレンダの配列を作る
+            make_dates_arr: function () {
+                var dates = [];
+                let cur_date = null;
+                while (cur_date === null || cur_date < this.$store.getters.getGanttEnd) {
                     if (!cur_date) {
-                        cur_date = this.clone_date(this.gantt_start);
+                        cur_date = this.clone_date(this.$store.getters.getGanttStart);
                     } else {
-                        if (this.option.view_mode == 'year') {
+                        if (this.$store.getters.getViewMode == 'year') {
+                            cur_date.setDate(1);
+                            cur_date.setMonth(0);
                             cur_date = this.add_date(cur_date, 1, 'year');
-                        }else if (this.option.view_mode == 'month') {
+                        }else if (this.$store.getters.getViewMode == 'month') {
+                            cur_date.setDate(1);
                             cur_date = this.add_date(cur_date, 1, 'month');
-                        }else if (this.option.view_mode == 'day') {
+                        }else if (this.$store.getters.getViewMode == 'day') {
                             cur_date = this.add_date(cur_date, 1, 'day');
+                        }else if (this.$store.getters.getViewMode == 'week') {
+                            if (cur_date.getDate() >= 1 && cur_date.getDate() < 11) {
+                                cur_date = this.add_date(cur_date, (11 - cur_date.getDate()), 'day');
+                            }else if (cur_date.getDate() >= 11 && cur_date.getDate() < 21) {
+                                cur_date = this.add_date(cur_date, (21 - cur_date.getDate()), 'day');
+                            }else {
+                                var last_day = new Date(cur_date.getFullYear(), cur_date.getMonth() + 1, 0).getDate();
+                                cur_date = this.add_date(cur_date, (last_day - cur_date.getDate() + 1), 'day');
+                            }
                         }else {
-                            cur_date = this.add_date(
-                                cur_date,
-                                this.option.step,
-                                'hour'
-                            );
+                            cur_date = this.add_date(cur_date, this.$store.getters.getStep, 'hour');
                         }
                     }
-                    this.dates.push(cur_date);
+                    dates.push(cur_date);
                 }
-                this.$store.commit('createDates', this.dates);
-
-                this.$store.commit('setCountGanttDays', this.count_gantt_days);
-                this.dates_display = this.get_dates_to_draw();
+                this.$store.commit('createDates', dates);
             },
             add_date: function(date, qty, scale) {
                 qty = parseInt(qty, 10);
@@ -88,15 +102,6 @@
                     date.getMilliseconds()
                 ];
             },
-            get_dates_to_draw: function() {
-                let last_date = null;
-                const dates_arr = this.dates.map((date, i) => {
-                    const d = this.get_date_info(date, last_date, i);
-                    last_date = date;
-                    return d;
-                });
-                return dates_arr;
-            },
             get_date_info(date, last_date, i) {
                 if (!last_date) {
                     last_date = this.add_date(date, 1, 'year');
@@ -105,7 +110,7 @@
                     'Quarter Day_lower': this.format_date(date,'HH'),
                     'Half Day_lower': this.format_date(date,'HH'),
                     day_lower: date.getDate() !== last_date.getDate()? this.format_date(date, 'D') : '',
-                    week_lower: date.getMonth() !== last_date.getMonth() ? this.format_date(date, 'D MMM') : this.format_date(date, 'D'),
+                    week_lower: this.format_date(date, 'D'),
                     month_lower: this.format_date(date, 'MMMM'),
                     year_lower: this.format_date(date, 'YYYY'),
                     'Quarter Day_upper': date.getDate() !== last_date.getDate() ? this.format_date(date, 'D MMM') : '',
@@ -113,8 +118,9 @@
                               ? this.format_date(date, 'D MMM') : this.format_date(date, 'D') : '',
                     day_upper: date.getMonth() !== last_date.getMonth() ? this.format_date(date, 'MMMM') : '',
                     week_upper: date.getMonth() !== last_date.getMonth() ? this.format_date(date, 'MMMM') : '',
+                    //(date < last_date && date.getDate() < 15 ? this.format_date(last_date, 'MMMM') : '') //week_upper
                     month_upper: date.getFullYear() !== last_date.getFullYear() ? this.format_date(date, 'YYYY') : '',
-                    year_upper: date.getFullYear() !== last_date.getFullYear() ? this.format_date(date, 'YYYY') : ''
+                    year_upper: ''
                 };
 
                 var count_last_month_days = new Date(last_date.getFullYear(), last_date.getMonth() + 1, 0).getDate();
@@ -125,32 +131,31 @@
                     // week_x: i * this.option.column_width * 7,
                     // month_x: i * this.option.column_width * count_last_month_days,
                     // year_x: i * this.option.column_width * this.count_gantt_days,
-                    lower_y: this.option.header_height,
-                    upper_y: this.option.header_height - 25
+                    lower_y: this.$store.getters.getHeaderHeight,
+                    upper_y: this.$store.getters.getHeaderHeight - 25
                 };
 
-                // const x_pos = {
-                //     'Quarter Day_lower': this.option.column_width * 4 / 2,
-                //     'Quarter Day_upper': 0,
-                //     'Half Day_lower': this.option.column_width * 2 / 2,
-                //     'Half Day_upper': 0,
-                //     day_lower: this.option.column_width / 2,
-                //     day_upper: this.option.column_width * 30 / 2,
-                //     week_lower: 0,
-                //     week_upper: this.option.column_width * 4 / 2,
-                //     month_lower: this.option.column_width * count_last_month_days / 2,
-                //     month_upper: this.option.column_width * count_last_month_days / 2,//this.option.column_width * 12 / 2 　※年の表示を最初表示する月の上に表示へ変更　2019/11/06 リ
-                //     year_lower: this.option.column_width / 2,
-                //     year_upper: this.option.column_width * 30 / 2
-                // };
+                const x_pos = {
+                    'Quarter Day_lower': this.$store.getters.getColWidth * 4 / 2,
+                    'Quarter Day_upper': 0,
+                    'Half Day_lower': this.$store.getters.getColWidth * 2 / 2,
+                    'Half Day_upper': 0,
+                    day_lower: this.$store.getters.getColWidth * this.getThroughDays(this.$store.getters.getGanttStart, date),
+                    day_upper: this.$store.getters.getColWidth * 30 / 2,
+                    week_lower: this.getThroughDays(this.$store.getters.getGanttStart, date) * this.$store.getters.getColWidth + 10,
+                    week_upper: this.$store.getters.getColWidth * 4 / 2,
+                    month_lower: (this.getThroughDays(this.$store.getters.getGanttStart, date) + count_this_month_days / 2) * this.$store.getters.getColWidth,
+                    month_upper: this.$store.getters.getColWidth * count_last_month_days / 2,
+                    year_lower: this.getThroughDays(this.$store.getters.getGanttStart, date) * this.$store.getters.getColWidth + 20,
+                    year_upper: this.$store.getters.getColWidth * 30 / 2
+                };
 
                 return {
-                    upper_text: date_text[`${this.option.view_mode}_upper`],
-                    lower_text: date_text[`${this.option.view_mode}_lower`],
-                    upper_x: (this.getThroughDays(this.$store.getters.getGanttStart, date) + count_this_month_days / 2) * this.option.column_width,
+                    upper_text: date_text[`${this.$store.getters.getViewMode}_upper`],
+                    lower_text: date_text[`${this.$store.getters.getViewMode}_lower`],
+                    upper_x: (this.getThroughDays(this.$store.getters.getGanttStart, date) + count_this_month_days / 2) * this.$store.getters.getColWidth,
                     upper_y: base_pos.upper_y,
-                    // lower_x: base_pos[`${this.option.view_mode}_x`] + x_pos[`${this.option.view_mode}_lower`],
-                    lower_x: (this.getThroughDays(this.$store.getters.getGanttStart, date) + count_this_month_days / 2) * this.option.column_width ,
+                    lower_x: x_pos[`${this.$store.getters.getViewMode}_lower`],
                     lower_y: base_pos.lower_y,
                     count_last_month_days: count_last_month_days,
                 };
@@ -202,13 +207,11 @@
                     if (targetLength > padString.length) {
                         padString += padString.repeat(targetLength / padString.length);
                     }
-                    // console.log(padString.slice(0, targetLength) + String(str));
                     return padString.slice(0, targetLength) + String(str);
-
                 }
             },
             compute_width: function () {
-                return this.option.column_width * this.count_gantt_days;
+                return this.$store.getters.getColWidth * this.count_gantt_days;
             },
         },
         // watch: {},
@@ -219,8 +222,7 @@
         // Options / Lifecycle Hooks
         // init () {},
         created () {
-            this.count_gantt_days = (this.gantt_end - this.gantt_start) / 86400000;
-            this.make_dates_arr();
+            // this.make_dates_arr();
         },
         // beforeCompile () {},
         // compiled () {},

@@ -24,13 +24,16 @@
             <input type="range" class="form-control-range" id="formControlRange" min="0" max="315" v-model="title_range" step="1">
         </div>
         <div style="width: 100px;margin-left: 20px;">
-            <button class="btn btn-primary" @click="option.view_mode = 'day'">日</button>
+            <button class="btn btn-primary" @click="changeViewMode('day')">日</button>
         </div>
         <div style="width: 100px;margin-left: 20px;">
-            <button class="btn btn-primary" @click="option.view_mode = 'month'">月</button>
+            <button class="btn btn-primary" @click="changeViewMode('week')">週</button>
         </div>
         <div style="width: 100px;margin-left: 20px;">
-            <button class="btn btn-primary" @click="option.view_mode = 'year'">年</button>
+            <button class="btn btn-primary" @click="changeViewMode('month')">月</button>
+        </div>
+        <div style="width: 100px;margin-left: 20px;">
+            <button class="btn btn-primary" @click="changeViewMode('year')">年</button>
         </div>
     </div>
 
@@ -38,22 +41,22 @@
     <div style="display:flex;margin-top: 5px;">
         <div>
             <div class="title-svg-wrapper">
-                <svg :width="title_range" :height="option.header_height">
+                <svg :width="title_range" :height="$store.getters.getHeaderHeight">
                     <g class="project">
-                        <rect x="0" y="0" :width="title_range" :height="option.header_height" class="grid-header"></rect>
-                        <text :x="10" :y="option.header_height / 2" class="title-text">工程・作業</text>
+                        <rect x="0" y="0" :width="title_range" :height="$store.getters.getHeaderHeight" class="grid-header"></rect>
+                        <text :x="10" :y="$store.getters.getHeaderHeight / 2" class="title-text">工程・作業</text>
                     </g>
                 </svg>
             </div>
             <div class="title-body" id="title-body" style="overflow-y:hidden;overflow-x:hidden;max-height:520px;">
                 <div class="title-body-wrapper">
-                    <svg :width="title_range" :height="(option.bar_height + option.padding) * $store.getters.getTasks.length">
+                    <svg :width="title_range" :height="($store.getters.getBarHeight + $store.getters.getPadding) * $store.getters.getTasks.length">
                         <g class="grid">
                             <!-- タスク背景 行 -->
                             <g>
                                 <template v-for="(task, index) in $store.getters.getTasks">
-                                    <rect x="0" :y="(option.bar_height + option.padding) * index" :width="title_range" :height="option.bar_height + option.padding" class="title-row"></rect>
-                                    <text :x="10" :y="(option.bar_height + option.padding) * index + 25" class="title-text">{{task.name}}</text>
+                                    <rect x="0" :y="($store.getters.getBarHeight + $store.getters.getPadding) * index" :width="title_range" :height="$store.getters.getBarHeight + $store.getters.getPadding" class="title-row"></rect>
+                                    <text :x="10" :y="($store.getters.getBarHeight + $store.getters.getPadding) * index + 25" class="title-text">{{task.name}}</text>
                                 </template>
                             </g>
                         </g>
@@ -62,8 +65,9 @@
             </div>
         </div>
 
-        <Gantt :option="option" />
+        <Gantt/>
     </div>
+
 
 
 
@@ -92,18 +96,7 @@ export default {
     ],
     data () {
         return {
-            option: {
-                step: 24,
-                header_height: 60,
-                column_width: 40, //一日
-                view_mode: 'month',
-                bar_height: 25,
-                padding: 18,
-                bar_corner_radius: 3,
-            },
             title_range: 315,
-            // from: ,
-            // to: ,
             ja: ja,
             DatePickerFormat: 'yyyy-MM-dd',
             gantt_start: new Date(),
@@ -112,26 +105,8 @@ export default {
         }
     },
     created () {
-        if (this.option.view_mode === 'day') {
-            this.option.step = 24;
-            this.option.column_width = 40;
-        } else if (this.option.view_mode === 'Half Day') {
-            this.option.step = 24 / 2;
-            this.option.column_width = 38;
-        } else if (this.option.view_mode === 'Quarter Day') {
-            this.option.step = 24 / 4;
-            this.option.column_width = 38;
-        } else if (this.option.view_mode === 'week') {
-            this.option.step = 24 * 7;
-            this.option.column_width = 140;
-        } else if (this.option.view_mode === 'month') {
-            this.option.step = 24 * 30;
-            this.option.column_width = 10;
-        } else if (this.option.view_mode === 'year') {
-            this.option.step = 24 * 365;
-            this.option.column_width = 120;
-        }
         this.gantt_start.setFullYear(this.gantt_start.getFullYear() - 1);
+        this.gantt_start.setMonth(11);
         this.gantt_start.setDate(1);
         this.gantt_end.setFullYear(this.gantt_end.getFullYear() + 1);
         this.$store.commit('setGanttStart', this.gantt_start);
@@ -142,7 +117,6 @@ export default {
     },
     watch: {
         gantt_start: function (val) {
-            this.$forceUpdate();
             this.$store.commit('setGanttStart', val);
         },
         gantt_end: function (val) {
@@ -150,10 +124,33 @@ export default {
         },
     },
     computed: {
-        //
+        getViewMode () {
+
+        },
     },
     methods: {
-
+        changeViewMode: function (mode) {
+            if (mode === 'day') {
+                this.$store.commit('setStep', 24);
+                this.$store.commit('setColWidth', 40);
+            } else if (mode === 'Half Day') {
+                // this.option.step = 24 / 2;
+                // this.option.column_width = 38;
+            } else if (mode === 'Quarter Day') {
+                // this.option.step = 24 / 4;
+                // this.option.column_width = 38;
+            } else if (mode === 'week') {
+                this.$store.commit('setStep', 10);
+                this.$store.commit('setColWidth', 10);
+            } else if (mode === 'month') {
+                this.$store.commit('setStep', 24 * 30);
+                this.$store.commit('setColWidth', 10);
+            } else if (mode === 'year') {
+                // this.$store.commit('setStep', 24 * 365);
+                this.$store.commit('setColWidth', 2);
+            }
+            this.$store.commit('setViewMode', mode);
+        },
     },
     components: {
         Gantt,

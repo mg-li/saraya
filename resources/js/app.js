@@ -56,7 +56,14 @@ const router = new VueRouter({
          dates: [],
          gantt_start: '',
          gantt_end: '',
-         count_gantt_days: 0,
+         option: {
+             step: 24,
+             header_height: 60,
+             column_width: 10, //一日
+             view_mode: 'month',
+             bar_height: 25,
+             padding: 18,
+         },
          tasks: [
              {
                  id: '1',
@@ -240,11 +247,35 @@ const router = new VueRouter({
              return state.gantt_end;
          },
          getCountGanttDays (state) {
-             return state.count_gantt_days;
+             return (state.gantt_end - state.gantt_start) / 86400000;
          },
          getTasks (state) {
              return state.tasks;
-         }
+         },
+         getViewMode (state) {
+             return state.option.view_mode;
+             // return state.view_mode;
+         },
+         getColWidth (state) {
+             return state.option.column_width;
+             // return state.column_width;
+         },
+         getStep (state) {
+             return state.option.step;
+             // return state.step;
+         },
+         getHeaderHeight (state) {
+             return state.option.header_height;
+             // return state.header_height;
+         },
+         getBarHeight (state) {
+             return state.option.bar_height;
+             // return state.bar_height;
+         },
+         getPadding (state) {
+             return state.option.padding;
+             // return state.padding;
+         },
      },
      mutations: {
          createDates (state, dates_arr) {
@@ -256,11 +287,20 @@ const router = new VueRouter({
          setGanttEnd (state, date) {
              state.gantt_end = date
          },
-         setCountGanttDays (state, date_str) {
-             state.count_gantt_days = date_str
-         },
          setTask (state, index, task) {
              state.tasks[index] = task
+         },
+         setViewMode (state, mode) {
+             state.option.view_mode = mode;
+             // state.view_mode = mode;
+         },
+         setColWidth (state, width) {
+             state.option.column_width = width;
+             // state.column_width = width;
+         },
+         setStep (state,step) {
+             state.option.step = step;
+             // state.step = step;
          },
      },
      actions: {
