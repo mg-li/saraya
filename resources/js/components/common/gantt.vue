@@ -231,11 +231,11 @@
             get_finaldx: function (dx) {
                 return Math.floor(dx / this.column_width);
             },
-            setDateFormat: function (date) {
+            setDateFormat: function (date, str1 = '-', str2 = "-", str3 = "") {
                 var year = date.getFullYear();
                 var month = ("00" + (date.getMonth() + 1)).slice(-2);
                 var day = ("00" + date.getDate()).slice(-2);
-                return year + '-' + month + '-' + day;
+                return year + str1 + month + str2 + day + str3;
             },
             onScroll: function (e) {
                 document.getElementById('hearder-svg-wrapper').scrollLeft = e.target.scrollLeft;
@@ -248,13 +248,13 @@
                 var finaldx = this.get_finaldx(this.tasks[this.resizing_task_index].dx_s);
                 var task_start = new Date(this.tasks[this.resizing_task_index].start);
                 var temp_date = new Date(task_start.setDate(task_start.getDate() + finaldx));
-                return this.setDateFormat(temp_date);
+                return this.setDateFormat(temp_date, "年", "月", "日");
             },
             computeEndDay: function () {
                 var finaldx = this.get_finaldx(this.tasks[this.resizing_task_index].dx_e);
                 var task_end = new Date(this.tasks[this.resizing_task_index].end);
                 var temp_date = new Date(task_end.setDate(task_end.getDate() + finaldx));
-                return this.setDateFormat(temp_date);
+                return this.setDateFormat(temp_date, "年", "月", "日");
             },
         },
         // watch: {},
