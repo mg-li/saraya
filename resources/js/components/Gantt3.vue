@@ -55,7 +55,10 @@
                             <!-- タスク背景 行 -->
                             <g>
                                 <template v-for="(task, index) in $store.getters.getTasks">
-                                    <rect x="0" :y="($store.getters.getBarHeight + $store.getters.getPadding) * index" :width="title_range" :height="$store.getters.getBarHeight + $store.getters.getPadding" class="title-row"></rect>
+                                    <rect x="0" :y="($store.getters.getBarHeight + $store.getters.getPadding) * index"
+                                          :width="title_range" :height="$store.getters.getBarHeight + $store.getters.getPadding"
+                                          class="title-row" :class="{'even-row': index % 2 == 0}">
+                                    </rect>
                                     <text :x="10" :y="($store.getters.getBarHeight + $store.getters.getPadding) * index + 25" class="title-text">{{task.name}}</text>
                                 </template>
                             </g>

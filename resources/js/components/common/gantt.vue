@@ -9,7 +9,7 @@
                         <!-- タスク背景 行 -->
                         <g>
                             <template v-for="(task, index) in tasks">
-                                <rect x="0" :y="($store.getters.getBarHeight + $store.getters.getPadding) * index" :width="row_width" :height="row_height" class="grid-row"></rect>
+                                <rect x="0" :y="($store.getters.getBarHeight + $store.getters.getPadding) * index" :width="row_width" :height="row_height" class="grid-row" :class="{'even-row': index % 2 == 0}"></rect>
                                 <line x1="0" :y1="row_height + ($store.getters.getBarHeight + $store.getters.getPadding) * index"
                                       :x2="row_width" :y2="row_height + ($store.getters.getBarHeight + $store.getters.getPadding) * index"
                                       class="row-line"></line>
@@ -73,6 +73,7 @@
                 x_on_start: 0,
                 resizing_task_index: '',
                 style: '',
+                bs: 5,//popup下スペース調整
             }
         },
         props: [],
@@ -151,7 +152,7 @@
                 return (this.getThroughDays(new Date(task.start), new Date(task.end)) * this.column_width - task.dx_s + task.dx_e) * (task.progress / 100) || 0;
             },
             onMousedown: function (e,side,index) {
-                this.style = `left: ${e.offsetX}px; top: ${this.row_height * index - 2}px;`;
+                this.style = `left: ${e.offsetX}px; top: ${this.row_height * index - this.bs}px;`;
                 this.resizing_task_index = index;
                 this.x_on_start = e.offsetX;
                 if (side == 'left') {
@@ -203,7 +204,7 @@
                 this.is_dragging = false;
             },
             resizing: function (e) {
-                this.style = `left: ${e.offsetX}px; top: ${this.row_height * this.resizing_task_index - 2}px;`;
+                this.style = `left: ${e.offsetX}px; top: ${this.row_height * this.resizing_task_index - this.bs}px;`;
                 var dx = e.offsetX - this.x_on_start;
                 if (this.is_resizing_left) {
                     this.tasks[this.resizing_task_index].dx_s = dx;
@@ -311,5 +312,7 @@
     font-family: Arial;
     font-size: 8pt;
     color: #dfe2e5;
+    font-weight: bold;
+    pointer-events: none;
 }
 </style>

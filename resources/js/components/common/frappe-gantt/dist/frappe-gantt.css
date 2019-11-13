@@ -16,7 +16,7 @@
 .title-row {
   fill: #ffffff;
   stroke: #e0e0e0;
-  stroke-width: 0.9;
+  stroke-width: 0.5;
   overflow-y: hidden;
 }
 .title-text {
@@ -45,8 +45,9 @@
 .gantt .grid-row {
   fill: #ffffff; }
 
-.gantt .grid-row:nth-child(even) {
-  fill: #f5f5f5; }
+.even-row {
+    fill: #f5f5f5 !important;
+}
 
 .gantt .row-line {
   stroke: #ebeff2; }
