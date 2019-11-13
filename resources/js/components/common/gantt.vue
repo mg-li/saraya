@@ -53,8 +53,8 @@
         </div>
         <div class="task-popup" v-if="resizing_task_index" :style="style">
             {{tasks[resizing_task_index].name}}<br>
-            開始： {{tasks[resizing_task_index].start}}<br>
-            終了： {{tasks[resizing_task_index].end}}
+            開始： {{computeStartDay()}}<br>
+            終了： {{computeEndDay()}}
         </div>
     </div>
 </template>
@@ -71,7 +71,6 @@
                 is_resizing_polygon: false,
                 is_dragging: false,
                 x_on_start: 0,
-                tasks: [],
                 resizing_task_index: '',
                 style: '',
             }
@@ -90,11 +89,13 @@
             column_width () {
                 return this.$store.getters.getColWidth;
             },
+            tasks () {
+                return this.$store.getters.getTasks;
+            }
         },
         methods: {
             getDate: function() {
                 this.tick_x = 0;
-                this.tasks = this.$store.getters.getTasks.slice();
             },
             createPath: function (date, index) {
                 // console.log(date +' : '+this.$store.getters.getGanttStart + ' : '+ this.getThroughDays(this.$store.getters.getGanttStart, date))
@@ -242,6 +243,18 @@
                     document.getElementById('title-body').scrollTop = e.target.scrollTop;
                 }
 
+            },
+            computeStartDay: function () {
+                var finaldx = this.get_finaldx(this.tasks[this.resizing_task_index].dx_s);
+                var task_start = new Date(this.tasks[this.resizing_task_index].start);
+                var temp_date = new Date(task_start.setDate(task_start.getDate() + finaldx));
+                return this.setDateFormat(temp_date);
+            },
+            computeEndDay: function () {
+                var finaldx = this.get_finaldx(this.tasks[this.resizing_task_index].dx_e);
+                var task_end = new Date(this.tasks[this.resizing_task_index].end);
+                var temp_date = new Date(task_end.setDate(task_end.getDate() + finaldx));
+                return this.setDateFormat(temp_date);
             },
         },
         // watch: {},
