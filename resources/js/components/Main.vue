@@ -1,7 +1,6 @@
 <template>
 <div>
-    <multiselect v-model="value" :options="options" track-by="name" label="name"></multiselect>
-    <div class="side-nav">
+    <div class="side-nav" v-if="isShowSideMenu">
         <div class="user-section">
             <!-- <a href=""><img class="circle" src="img/admin.png"> -->
             <p>{{$root.name}}</p>
@@ -10,12 +9,12 @@
 
         <div class="menu">
             <!-- <a :class="status_home" @click="get_content_area('home')"> <i class="icon ion-ios-home"></i> 看板</a> -->
-            <a :class="status_gantt" @click="get_content_area('gantt')"> <i class="icon ion-ios-calendar"></i> スケジュールテスト</a>
-            <!-- <a :class="status_gantt2" @click="get_content_area('gantt2')"> <i class="icon ion-ios-calendar"></i> スケジュール2</a> -->
-            <a :class="status_gantt3" @click="get_content_area('gantt3')"> <i class="icon ion-ios-calendar"></i> スケジュール</a>
-            <a :class="status_ticket" @click="get_content_area('ticket')"> <i class="icon ion-clipboard"></i> 工程・作業一覧</a>
-            <a :class="status_setting" @click="get_content_area('setting')"><i class="icon ion-gear-b"></i> 設定</a>
-            <a :class="status_logout" @click="get_content_area('logout')"><i class="icon ion-android-exit"></i> Logout</a>
+            <a :class="{active:pid == 'adminHome'}" @click="get_content_area('adminHome')"> <i class="icon ion-ios-home"></i> 看板</a>
+            <!-- <a :class="{active:pid == 'gantt'}" @click="get_content_area('gantt')"> <i class="icon ion-ios-calendar"></i> スケジュール1111</a> -->
+            <a :class="{active:pid == 'gantt3'}" @click="get_content_area('gantt3')"> <i class="icon ion-ios-calendar"></i> スケジュール</a>
+            <!-- <a :class="{active:pid == 'taskList'}" @click="get_content_area('taskList')"> <i class="icon ion-clipboard"></i> 工程・作業一覧</a> -->
+            <a :class="{active:pid == 'setting'}" @click="get_content_area('setting')"><i class="icon ion-gear-b"></i> 設定</a>
+            <a :class="{active:pid == 'logout'}" @click="get_content_area('logout')"><i class="icon ion-android-exit"></i> Logout</a>
         </div>
 
         <div class="line"><hr></div>
@@ -24,7 +23,21 @@
         </div>
     </div>
 
-    <div class="content-area">
+    <div class="content-area" :class="{'hide-side-menu': !isShowSideMenu}">
+        <div class="form-row">
+            <div class="col-md-8 mb-2">
+                <button class="btn btn-light d-inline-block ml-auto" type="button" @click="changeSideView()">
+                    <i class="fa fa-chevron-right" v-if="!isShowSideMenu"></i>
+                    <i class="fa fa-chevron-left" v-else></i>
+                </button>
+            </div>
+            <div class="col-md-4 mb-2" v-if="pid != 'setting'">
+                <v-select v-model="taskId" label="name" :options="$store.getters.getProjects" :reduce="name => name.id"><!--  -->
+                    <div slot="no-options">検索結果ありません。</div>
+                </v-select>
+            </div>
+        </div>
+
         <router-view />
     </div>
 
@@ -33,8 +46,6 @@
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect';
-Vue.component('multiselect', Multiselect);
 export default {
      props: [
         'id',
@@ -43,21 +54,9 @@ export default {
     ],
     data () {
         return {
-            status_home: "active",
-            status_ticket: "",
-            status_gantt: "",
-            status_gantt2: "",
-            status_gantt3: "",
-            status_logout: "",
-            status_chat: "",
-            status_setting: "",
-            value: {
-                name: 'プロジェクトを検索...', id: 0
-            },
-            options: [
-                { name: 'すべてのプロジェクト', id: 1 },
-                { name: 'New プロジェクト', id: 2 },
-            ],
+            pid: 'adminHome',
+            taskId: null,
+            isShowSideMenu: true,
         }
     },
     created () {
@@ -65,6 +64,15 @@ export default {
     },
     computed: {
         //
+    },
+    watch: {
+        taskId () {
+            if (!this.taskId) {
+                this.$store.commit('setGanttMode', "all");
+            }else{
+                this.$store.commit('setGanttMode', "one");
+            }
+        }
     },
     methods: {
         onLogin: function () {
@@ -74,54 +82,30 @@ export default {
             this.$router.push({ name: 'adminHome'});
         },
         get_content_area: function (pid) {
-            this.status_home = "";
-            this.status_ticket = "";
-            this.status_gantt = "";
-            this.status_gantt2 = "";
-            this.status_gantt3 = "";
-            this.status_logout = "";
-            this.status_chat = "";
-            this.status_setting = "";
-            switch( pid ) {
-                case 'home':
-                    this.status_home = "active";
-                    this.$router.push({ name: 'adminHome'});
-                    break;
-                case 'ticket':
-                    this.status_ticket = "active";
-                    this.$router.push({ name: 'ticket'});
-                    break;
-                case 'gantt':
-                    this.status_gantt = "active";
-                    this.$router.push({ name: 'gantt'});
-                    break;
-                case 'gantt3':
-                    this.status_gantt3 = "active";
-                    this.$router.push({ name: 'gantt3'});
-                    break;
-                case 'gantt2':
-                    this.status_gantt2 = "active";
-                    this.$router.push({ name: 'gantt2'});
-                    break;
-                case 'setting':
-                    this.status_setting = "active";
-                    this.$router.push({ name: 'setting'});
-                    break;
-                case 'logout':
-                    this.status_logout = "active";
-                    document.getElementById('logout-form').submit();
-                    break;
+            this.pid = pid;
+            if (pid == 'logout') {
+                document.getElementById('logout-form').submit();
+            }else{
+                this.$router.push({ name: pid});
             }
-
+        },
+        changeSideView: function () {
+            this.isShowSideMenu = !this.isShowSideMenu;
         },
     },
-    components: { Multiselect },
+    components: {  },
 }
 </script>
-
-<!-- <style src="vue-multiselect/dist/vue-multiselect.min.css"></style> -->
 
 <style lang="scss" scoped>
 @import "resources/sass/variables";
 
+</style>
+<style lang="scss">
+.vs__dropdown-toggle{
+    background-color: #fff;
+}
+.hide-side-menu{
+    margin-left: 0;
+}
 </style>

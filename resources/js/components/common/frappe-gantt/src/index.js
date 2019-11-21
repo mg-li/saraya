@@ -4,7 +4,7 @@ import Bar from './bar';
 import Arrow from './arrow';
 import Popup from './popup';
 
-import './gantt.scss';
+// import './gantt.scss';
 // import '../dist/frappe-gantt.js';
 
 export default class Gantt {

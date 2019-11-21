@@ -20,6 +20,10 @@ input.form-control {
   padding: 10px 12px;
   height: auto; }
 
+select.form-control {
+    padding: 12px 12px;
+    height: auto; }
+
 input.form-control:focus,
 textarea.form-control:focus {
   box-shadow: none;
@@ -636,7 +640,7 @@ img {
   padding-top: 50px; }
 
 .progress {
-  background-color: #CECECE;
+  background-color: #6c757d;;
   border-radius: 0; }
 
 .progress-bar {

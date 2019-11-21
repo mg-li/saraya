@@ -2,7 +2,7 @@
     <div class="gantt-container">
         <GanttHeader></GanttHeader>
         <!-- GanttHeaderからdatesとgantt_startを作るのを待つ -->
-        <div class="gantt-body" v-if="dates.length > 0 && gantt_start" @scroll="onScroll">
+        <div class="gantt-body" id="gantt-body" v-if="dates.length > 0 && gantt_start" @scroll="onScroll">
             <div class="gantt-body-wrapper">
                 <svg class="gantt" :width="row_width" :height="row_height * tasks.length" @mousemove="resizing($event)" @mouseup="onMouseup()">
                     <g class="grid">
@@ -28,14 +28,26 @@
                                       <animate attributeName="width" from="0" :to="compute_width(task)" dur="0.4s" begin="0.1s" calcMode="spline" :values="'0;'+compute_width(task)" keyTimes="0; 1" keySplines="0 0 .58 1"></animate>
                                 </rect>
                                 <!-- タスク　プログレスバー -->
-                                <rect v-if="task.mode != 1" :x="compute_x(task)" :y="compute_y(task, index3)"
+                                <rect v-if="gantt_mode == 'one'" :x="compute_x(task)" :y="compute_y(task, index3)"
                                       :width="compute_progress_width(task)" :height="$store.getters.getBarHeight"
                                       rx="3" ry="3" class="bar-progress" @mousedown="onMousedown($event,'',index3)">
                                       <animate attributeName="width" from="0" :to="compute_progress_width(task)" dur="0.4s" begin="0.1s" calcMode="spline" :values="'0;'+compute_progress_width(task)" keyTimes="0; 1" keySplines="0 0 .58 1"></animate>
                                 </rect>
                                 <text :x="compute_x(task) + compute_width(task) + 5" :y="compute_y(task, index3) + $store.getters.getBarHeight / 2" class="bar-label big">{{task.name}}</text>
+                                <!-- 案件色付け割合表示 -->
+                                <template v-for="(p, index4) in gantt_task_4_report" v-if="gantt_mode == 'all'">
+                                    <rect :x="compute_x(p)" :y="compute_y(p, index3)"
+                                          :width="compute_width(p)" :height="$store.getters.getBarHeight"
+                                          rx="1" ry="1" :class="'bar-progress' + (index4 + 1)" @mousedown="onMousedown($event,'',index4, index3)">
+                                          <animate attributeName="width" from="0" :to="compute_width(p)" dur="0.4s" begin="0.1s" calcMode="spline" :values="'0;'+compute_width(p)" keyTimes="0; 1" keySplines="0 0 .58 1"></animate>
+                                    </rect>
+                                    <text :x="compute_x(p) + compute_width(p) / 2 - 5" :y="compute_y(task, index3) + $store.getters.getBarHeight / 2" class="bar-label" @mousedown="onMousedown($event,'',index4, index3)">
+                                        {{p.name}}
+                                    </text>
+                                </template>
+
                             </g>
-                            <g class="handle-group" v-if="task.mode != 1">
+                            <g class="handle-group" v-if="gantt_mode == 'one'">
                                 <rect :x="compute_x(task) - 1" :y="compute_y(task, index3) - 1"
                                       width="5" :height="$store.getters.getBarHeight + 2"
                                       rx="1" ry="1" class="handle left" @mousedown="onMousedown($event,'left',index3)">
@@ -51,10 +63,15 @@
                 </svg>
             </div>
         </div>
-        <div class="task-popup" v-if="resizing_task_index" :style="style">
+        <div class="task-popup" v-if="resizing_task_index !== ''" :style="style">
             {{tasks[resizing_task_index].name}}<br>
-            開始： {{computeStartDay()}}<br>
-            終了： {{computeEndDay()}}
+            開始： {{computeStartDay(tasks, resizing_task_index)}}<br>
+            終了： {{computeEndDay(tasks, resizing_task_index)}}
+        </div>
+        <div class="task-popup" v-if="task_4_report_index !== ''" :style="style">
+            {{gantt_task_4_report[task_4_report_index].name}}<br>
+            開始： {{computeStartDay(gantt_task_4_report, task_4_report_index)}}<br>
+            終了： {{computeEndDay(gantt_task_4_report, task_4_report_index)}}
         </div>
     </div>
 </template>
@@ -72,8 +89,10 @@
                 is_dragging: false,
                 x_on_start: 0,
                 resizing_task_index: '',
+                task_4_report_index: '',
                 style: '',
                 bs: 5,//popup下スペース調整
+                ls: 595,
             }
         },
         props: [],
@@ -92,6 +111,12 @@
             },
             tasks () {
                 return this.$store.getters.getTasks;
+            },
+            gantt_mode () {
+                return this.$store.getters.getGanttMode;
+            },
+            gantt_task_4_report () {
+                return this.$store.getters.getTask4Report;
             }
         },
         methods: {
@@ -151,22 +176,28 @@
             compute_progress_width: function (task) {
                 return (this.getThroughDays(new Date(task.start), new Date(task.end)) * this.column_width - task.dx_s + task.dx_e) * (task.progress / 100) || 0;
             },
-            onMousedown: function (e,side,index) {
-                this.style = `left: ${e.offsetX}px; top: ${this.row_height * index - this.bs}px;`;
-                this.resizing_task_index = index;
-                this.x_on_start = e.offsetX;
-                if (side == 'left') {
-                    this.is_resizing_left = true;
-                }else if (side == 'right') {
-                    this.is_resizing_right = true;
-                }else if (side == 'polygon') {
-                    this.is_resizing_polygon = true;
+            onMousedown: function (e,side,index,index2 = '') {
+
+                if (this.gantt_mode == 'one') {
+                    this.style = `left: ${e.clientX - this.ls}px; top: ${this.row_height * index - this.bs}px;`;
+                    this.resizing_task_index = index;
+                    this.x_on_start = e.offsetX;
+                    if (side == 'left') {
+                        this.is_resizing_left = true;
+                    }else if (side == 'right') {
+                        this.is_resizing_right = true;
+                    }else if (side == 'polygon') {
+                        this.is_resizing_polygon = true;
+                    }else{
+                        this.is_dragging = true;
+                    }
                 }else{
-                    this.is_dragging = true;
+                    this.style = `left: ${e.clientX - this.ls}px; top: ${this.row_height * index2 - this.bs}px;`;
+                    this.task_4_report_index = index;
                 }
             },
             onMouseup: function () {
-                if (this.resizing_task_index != 0) {
+                if (this.resizing_task_index !== '') {
                     var finaldx = 0;
                     if (this.is_resizing_left) {
                         finaldx = this.get_finaldx(this.tasks[this.resizing_task_index].dx_s);
@@ -196,7 +227,10 @@
                         this.tasks[this.resizing_task_index].dx_s = 0;
                         this.tasks[this.resizing_task_index].dx_e = 0;
                     }
-                    this.resizing_task_index = 0;
+                    this.resizing_task_index = '';
+                }
+                if (this.task_4_report_index !== '') {
+                    this.task_4_report_index = '';
                 }
                 this.is_resizing_left = false;
                 this.is_resizing_right = false;
@@ -204,29 +238,34 @@
                 this.is_dragging = false;
             },
             resizing: function (e) {
-                this.style = `left: ${e.offsetX}px; top: ${this.row_height * this.resizing_task_index - this.bs}px;`;
                 var dx = e.offsetX - this.x_on_start;
-                if (this.is_resizing_left) {
-                    this.tasks[this.resizing_task_index].dx_s = dx;
-                }
-                if (this.is_resizing_right) {
-                    this.tasks[this.resizing_task_index].dx_e = dx;
-                }
-                if (this.is_resizing_polygon) {
-                    var width = this.compute_width(this.tasks[this.resizing_task_index]);
-                    var progress_width = this.compute_progress_width(this.tasks[this.resizing_task_index]);
-                    if (dx < -progress_width) {
-                        dx = -progress_width;
+                if (this.resizing_task_index !== '' ){
+                    this.style = `left: ${e.clientX - this.ls}px; top: ${this.row_height * this.resizing_task_index - this.bs}px;`;
+
+                    if (this.is_resizing_left) {
+                        this.tasks[this.resizing_task_index].dx_s = dx;
+                        // this.$store.commit('setTaskdx_s', {index: this.resizing_task_index, dx: dx});
                     }
-                    if (dx + progress_width > width) {
-                        dx = width - progress_width;
+                    if (this.is_resizing_right) {
+                        this.tasks[this.resizing_task_index].dx_e = dx;
+                        // this.$store.commit('setTaskdx_e', {index: this.resizing_task_index, dx: dx});
                     }
-                    this.tasks[this.resizing_task_index].progress = this.tasks[this.resizing_task_index].progress + dx * 100 / width;
-                    this.x_on_start = e.offsetX;
-                }
-                if (this.is_dragging) {
-                    this.tasks[this.resizing_task_index].dx_s = dx;
-                    this.tasks[this.resizing_task_index].dx_e = dx;
+                    if (this.is_resizing_polygon) {
+                        var width = this.compute_width(this.tasks[this.resizing_task_index]);
+                        var progress_width = this.compute_progress_width(this.tasks[this.resizing_task_index]);
+                        if (dx < -progress_width) {
+                            dx = -progress_width;
+                        }
+                        if (dx + progress_width > width) {
+                            dx = width - progress_width;
+                        }
+                        this.tasks[this.resizing_task_index].progress = this.tasks[this.resizing_task_index].progress + dx * 100 / width;
+                        this.x_on_start = e.offsetX;
+                    }
+                    if (this.is_dragging) {
+                        this.tasks[this.resizing_task_index].dx_s = dx;
+                        this.tasks[this.resizing_task_index].dx_e = dx;
+                    }
                 }
             },
             get_finaldx: function (dx) {
@@ -245,15 +284,15 @@
                 }
 
             },
-            computeStartDay: function () {
-                var finaldx = this.get_finaldx(this.tasks[this.resizing_task_index].dx_s);
-                var task_start = new Date(this.tasks[this.resizing_task_index].start);
+            computeStartDay: function (tasks, index) {
+                var finaldx = this.get_finaldx(tasks[index].dx_s);
+                var task_start = new Date(tasks[index].start);
                 var temp_date = new Date(task_start.setDate(task_start.getDate() + finaldx));
                 return this.setDateFormat(temp_date, "年", "月", "日");
             },
-            computeEndDay: function () {
-                var finaldx = this.get_finaldx(this.tasks[this.resizing_task_index].dx_e);
-                var task_end = new Date(this.tasks[this.resizing_task_index].end);
+            computeEndDay: function (tasks, index) {
+                var finaldx = this.get_finaldx(tasks[index].dx_e);
+                var task_end = new Date(tasks[index].end);
                 var temp_date = new Date(task_end.setDate(task_end.getDate() + finaldx));
                 return this.setDateFormat(temp_date, "年", "月", "日");
             },

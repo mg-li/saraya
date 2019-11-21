@@ -153,7 +153,7 @@ body{
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-table.table-hover tbody tr td:hover {
+table.table-hover tbody tr:hover {
     background-color: #c7c3c3;
 }
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {

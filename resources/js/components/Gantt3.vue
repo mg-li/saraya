@@ -1,5 +1,5 @@
 <template>
-<div>
+<div @click="isShowPopMenu = false">
     <div class="row" style="margin-right:0;margin-left:0;">
         <div class="form-group">
             <div class="input-group" id="datetimepicker1">
@@ -46,20 +46,27 @@
                         <rect x="0" y="0" :width="title_range" :height="$store.getters.getHeaderHeight" class="grid-header"></rect>
                         <text :x="10" :y="$store.getters.getHeaderHeight / 2" class="title-text">工程・作業</text>
                     </g>
+                    <!-- <g>
+                        <circle :cx="title_range - 3" :cy="$store.getters.getHeaderHeight / 2 - 10" r="2" stroke="black" fill="black" stroke-width="1" />
+                        <circle :cx="title_range - 3" :cy="$store.getters.getHeaderHeight / 2 " r="2" stroke="black" fill="black" stroke-width="1" />
+                        <circle :cx="title_range - 3" :cy="$store.getters.getHeaderHeight / 2 + 10" r="2" stroke="black" fill="black" stroke-width="1" />
+                    </g> -->
                 </svg>
             </div>
             <div class="title-body" id="title-body" style="overflow-y:hidden;overflow-x:hidden;max-height:520px;">
                 <div class="title-body-wrapper">
                     <svg :width="title_range" :height="($store.getters.getBarHeight + $store.getters.getPadding) * $store.getters.getTasks.length">
-                        <g class="grid">
+                        <g class="grid" style="user-select: none;">
                             <!-- タスク背景 行 -->
                             <g>
                                 <template v-for="(task, index) in $store.getters.getTasks">
                                     <rect x="0" :y="($store.getters.getBarHeight + $store.getters.getPadding) * index"
                                           :width="title_range" :height="$store.getters.getBarHeight + $store.getters.getPadding"
-                                          class="title-row" :class="{'even-row': index % 2 == 0}">
+                                          class="title-row" :class="{'even-row': index % 2 == 0, 'active': selected_id == task.id}" @click.right.prevent="showPopMenu($event, task)">
                                     </rect>
-                                    <text :x="10" :y="($store.getters.getBarHeight + $store.getters.getPadding) * index + 25" class="title-text">{{task.name}}</text>
+                                    <text :x="10" :y="($store.getters.getBarHeight + $store.getters.getPadding) * index + 25" class="title-text" :class="{'active-text': selected_id == task.id}" @click.right.prevent="showPopMenu($event, task)">
+                                        {{createTaskName(task)}}
+                                    </text>
                                 </template>
                             </g>
                         </g>
@@ -67,12 +74,17 @@
                 </div>
             </div>
         </div>
-
+        <div class="pop-menu" v-if="isShowPopMenu" :style="pop_menu_style">
+            <a class="dropdown-item" href="#" @click="showTaskModal(1)">編集</a>
+            <a class="dropdown-item" href="#" @click="showTaskModal(2)">追加</a>
+            <a class="dropdown-item" href="#" @click="showTaskModal(3)"> ↳ 追加</a>
+            <a class="dropdown-item delete" href="#" @click="onDelete()">削除</a>
+            <div class="dropdown-divider" style="margin:0;"></div>
+            <a class="dropdown-item" href="#" @click="isShowPopMenu = false">閉じる</a>
+        </div>
         <Gantt/>
+        <TaskModal @close="closeModal" v-if="modal" :id="selected_id" :mode="mode"></TaskModal>
     </div>
-
-
-
 
     <!-- <div>
         <h5></h5>
@@ -90,6 +102,7 @@
 
 <script>
 import Gantt from './common/gantt.vue';
+import TaskModal from './common/modal/TaskModal.vue'
 import moment from 'moment';
 import Datepicker from 'vuejs-datepicker';
 import {ja} from 'vuejs-datepicker/dist/locale';
@@ -104,6 +117,11 @@ export default {
             DatePickerFormat: 'yyyy-MM-dd',
             gantt_start: new Date(),
             gantt_end: new Date(),
+            selected_id: '',
+            mode: '',
+            modal: false,
+            isShowPopMenu: false,
+            pop_menu_style: '',
             debugEventLog: []
         }
     },
@@ -125,6 +143,11 @@ export default {
         gantt_end: function (val) {
             this.$store.commit('setGanttEnd', val);
         },
+        isShowPopMenu: function (val) {
+            if (!val) {
+                this.selected_id = '';
+            }
+        }
     },
     computed: {
         getViewMode () {
@@ -154,15 +177,76 @@ export default {
             }
             this.$store.commit('setViewMode', mode);
         },
+        createTaskName: function (task) {
+            if (task.mode == 3) {
+                return "　　" + task.name
+            }
+            if (task.mode == 4) {
+                return "　　　　" + task.name
+            }
+            return task.name;
+        },
+        showTaskModal: function (mode) {
+            this.isShowPopMenu = false;
+            this.mode = mode;
+            this.disableScroll();
+            this.modal = true;
+        },
+        showPopMenu: function (e, task) {
+            this.selected_id = task.id;
+            this.pop_menu_style = `left: ${e.clientX}px;top: ${e.clientY}px;`;
+
+            this.isShowPopMenu = true;
+        },
+        closeModal() {
+            this.modal = false;
+            this.mode = '';
+            this.selected_id = '';
+            this.enableScroll();
+        },
+        disableScroll: function () {
+            var x=window.scrollX;
+            var y=window.scrollY;
+            if (document.getElementById('gantt-body')) {
+                document.getElementById('gantt-body').scrollTop = y;
+            }
+            window.onscroll=function(){window.scrollTo(x, y);};
+        },
+        enableScroll: function () {
+            window.onscroll=function(){};
+        },
+        onDelete: function () {
+
+        }
     },
     components: {
         Gantt,
-        Datepicker
+        Datepicker,
+        TaskModal
     },
 }
 </script>
 
 <style lang="scss">
 @import "resources/sass/variables";
+.pop-menu{
+    border-radius: 2px;
+    position: absolute;
+    z-index: 50;
+    -webkit-box-shadow: 3px 3px 3px rgba(0,0,0,.07);
+    box-shadow: 3px 3px 3px rgba(0,0,0,.07);
+    background-color: rgba(255, 255, 255);
+    border-left: 1px solid rgba(0,0,0,.07);
+    border-top: 1px solid rgba(0,0,0,.07);
+    font-family: Arial;
+    font-size: 10pt;
+    color: #dfe2e5;
+    font-weight: bold;
+}
+.delete.active, .delete:active{
+    color: white;
+    background-color: red;
+    text-decoration: none;
+}
 
 </style>

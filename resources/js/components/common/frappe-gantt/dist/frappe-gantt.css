@@ -13,6 +13,9 @@
   stroke-width: 1.4;
   overflow-y: hidden;
 }
+.title-body {
+    cursor: pointer;
+}
 .title-row {
   fill: #ffffff;
   stroke: #e0e0e0;
@@ -42,11 +45,19 @@
     border-width: 1px;
 }
 
-.gantt .grid-row {
+.grid-row {
   fill: #ffffff; }
 
 .even-row {
-    fill: #f5f5f5 !important;
+    fill: #f5f5f5;
+}
+.grid .active{
+    fill: #4dc4b6;
+}
+
+.active-text{
+    font-size: 12px;
+    fill: #fff;
 }
 
 .gantt .row-line {

@@ -1,34 +1,65 @@
 <template>
     <div>
-        <div class="card text-center">
-            <div class="card-body">
-                <h3 class="title-margin mt-3 mb-5">設定メニュー</h3>
-                <div class="d-flex justify-content-center mb-2">
-                    <button class="btn btn-primary btn-menu mr-3 mb-3">部門管理</button>
-                    <button class="btn btn-primary btn-menu mr-3 mb-3">ユーザー管理</button>
-                </div>
-                <div class="d-flex justify-content-center mb-2">
-
-                </div>
-                <div class="d-flex justify-content-center mb-2">
-
-                </div>
-    			<div class="d-flex justify-content-center mb-2">
-
+        <div class="row" style="margin-top:20px;">
+            <div class="mx-auto col-12">
+                <nav>
+                    <div class="nav nav-tabs">
+                        <a v-for="(setting, index) in settings" @click="changePage(index, setting.id)" class="nav-item nav-link" :class="{'active':index == pIndex}">
+                            {{setting.name}}
+                        </a>
+                    </div>
+                </nav>
+                <div v-for="(setting, index) in settings" class="tab-pane" :class="{'active': index == pIndex}" :id="'nav' + (index + 1)" role="tabpanel" :aria-labelledby="'nav' + (index + 1)">
+                    <component :is="currentView" v-if="index == pIndex"></component>
                 </div>
             </div>
-    	</div>
+        </div>
     </div>
 </template>
 <script lang="">
+    import department from './Department.vue';
+    import user from './User.vue';
+    import project from './Project.vue';
     export default {
         // Options / Data
         data () {
-            return {}
+            return {
+                settings: [
+                    {
+                        id: 'department',
+                        name: '部門管理',
+                    },
+                    {
+                        id: 'user',
+                        name: 'ユーザー管理',
+                    },
+                    {
+                        id: 'project',
+                        name: '案件管理',
+                    }
+                ],
+                pIndex: 0,
+                departments: [
+                    {
+                        id: 1,
+                        name: '開発部',
+                    },
+                    {
+                        id: 2,
+                        name: '商品企画部',
+                    }
+                ],
+                currentView: 'department',
+            }
         },
         props: [],
         computed: {},
-        methods: {}// ,
+        methods: {
+            changePage: function (index, id) {
+                this.pIndex = index;
+                this.currentView = id;
+            },
+        },
         // watch: {},
         // Options / DOM
         // el () {},
@@ -36,7 +67,7 @@
         // template: '',
         // Options / Lifecycle Hooks
         // init () {},
-        // crated () {},
+        // created () {},
         // beforeCompile () {},
         // compiled () {},
         // ready () {},
@@ -48,7 +79,11 @@
         // directives: {},
         // elementDirectives: {},
         // filters: {},
-        // components: {},
+        components: {
+            department,
+            user,
+            project
+        },
         // transitions: {},
         // partials: {},
         // Options / Misc
@@ -67,5 +102,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.nav-tabs {
+  border-bottom: none;
+}
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: #FFF;
+    background-color: #6cb2eb;
+    border-color: #dee2e6 #dee2e6 #f8fafc;
 }
 </style>

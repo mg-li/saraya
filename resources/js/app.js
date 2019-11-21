@@ -19,6 +19,9 @@ import swal from 'sweetalert2'
 import Loading from 'vue-loading-overlay';
 Vue.component('loading', Loading)
 import 'vue-loading-overlay/dist/vue-loading.css';
+import vSelect from 'vue-select'
+Vue.component('v-select', vSelect)
+import 'vue-select/dist/vue-select.css';
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -38,12 +41,13 @@ const router = new VueRouter({
         // adminホーム
         { name: 'adminHome', path: '/adminHome', component: require('./components/AdminHome.vue').default },
         //チケット
-        { name: 'ticket', path: '/ticket', component: require('./components/Ticket.vue').default },
+        { name: 'taskList', path: '/taskList', component: require('./components/TaskList.vue').default },
         //ガントチャート
         { name: 'gantt', path: '/gantt', component: require('./components/Gantt.vue').default },
-        { name: 'gantt2', path: '/gantt2', component: require('./components/Gantt2.vue').default },
+        // { name: 'gantt2', path: '/gantt2', component: require('./components/Gantt2.vue').default },
         { name: 'gantt3', path: '/gantt3', component: require('./components/Gantt3.vue').default },
         { name: 'setting', path: '/setting', component: require('./components/Setting.vue').default },
+        // { name: 'department', path: '/department', component: require('./components/Department.vue').default },
     ]
 });
 /**
@@ -56,6 +60,7 @@ const router = new VueRouter({
          dates: [],
          gantt_start: '',
          gantt_end: '',
+         gantt_mode: 'all',
          option: {
              step: 24,
              header_height: 60,
@@ -71,10 +76,11 @@ const router = new VueRouter({
                  start: '2019-01-01',
                  end: '2019-12-01',
                  progress: 0,
-                 belongsto: 1,
+                 belongsto: 0,
                  mode: 1,
                  dx_s: 0,
                  dx_e: 0,
+                 status: 0,
              },
              {
                  id: '2',
@@ -86,6 +92,7 @@ const router = new VueRouter({
                  mode: 2,
                  dx_s: 0,
                  dx_e: 0,
+                 status: 0,
                  // dependencies: '1'
              },
              {
@@ -98,6 +105,7 @@ const router = new VueRouter({
                  mode: 3,
                  dx_s: 0,
                  dx_e: 0,
+                 status: 0,
                  // dependencies: '2'
              },
              {
@@ -110,6 +118,7 @@ const router = new VueRouter({
                  mode: 4,
                  dx_s: 0,
                  dx_e: 0,
+                 status: 3,
              },
              {
                  id: '5',
@@ -121,6 +130,7 @@ const router = new VueRouter({
                  mode: 4,
                  dx_s: 0,
                  dx_e: 0,
+                 status: 1,
              },
              {
                  id: '6',
@@ -132,7 +142,8 @@ const router = new VueRouter({
                  mode: 3,
                  dx_s: 0,
                  dx_e: 0,
-                 dependencies: '3'
+                 dependencies: '3',
+                 status: 0,
              },
              {
                  id: '7',
@@ -144,7 +155,8 @@ const router = new VueRouter({
                  mode: 3,
                  dx_s: 0,
                  dx_e: 0,
-                 dependencies: '6'
+                 dependencies: '6',
+                 status: 0,
              },
              {
                  id: '8',
@@ -156,6 +168,7 @@ const router = new VueRouter({
                  mode: 2,
                  dx_s: 0,
                  dx_e: 0,
+                 status: 0,
              },
              {
                  id: '9',
@@ -167,72 +180,79 @@ const router = new VueRouter({
                  mode: 2,
                  dx_s: 0,
                  dx_e: 0,
+                 status: 0,
              },
              {
                  id: '10',
-                 name: '落下試験2',
+                 name: '小項目3',
                  start: '2019-08-20',
-                 end: '2019-10-05',
+                 end: '2019-09-20',
                  progress: 40,
-                 belongsto: 1,
-                 mode: 2,
+                 belongsto: 9,
+                 mode: 4,
                  dx_s: 0,
                  dx_e: 0,
+                 status: 1,
              },
              {
                  id: '11',
-                 name: '落下試験2',
-                 start: '2019-08-20',
-                 end: '2019-10-05',
+                 name: '小項目4',
+                 start: '2019-09-20',
+                 end: '2019-11-01',
                  progress: 40,
-                 belongsto: 1,
-                 mode: 2,
+                 belongsto: 9,
+                 mode: 4,
                  dx_s: 0,
                  dx_e: 0,
+                 status: 2,
              },
              {
                  id: '12',
-                 name: '落下試験2',
-                 start: '2019-08-20',
-                 end: '2019-10-05',
+                 name: '小項目4',
+                 start: '2019-09-20',
+                 end: '2019-11-01',
                  progress: 40,
-                 belongsto: 1,
-                 mode: 2,
+                 belongsto: 9,
+                 mode: 4,
                  dx_s: 0,
                  dx_e: 0,
+                 status: 2,
              },
              {
                  id: '13',
-                 name: '落下試験2',
-                 start: '2019-08-20',
-                 end: '2019-10-05',
+                 name: '小項目4',
+                 start: '2019-09-20',
+                 end: '2019-11-01',
                  progress: 40,
-                 belongsto: 1,
-                 mode: 2,
+                 belongsto: 9,
+                 mode: 4,
                  dx_s: 0,
                  dx_e: 0,
+                 status: 2,
              },
              {
                  id: '14',
-                 name: '落下試験2',
-                 start: '2019-08-20',
-                 end: '2019-10-05',
+                 name: '小項目4',
+                 start: '2019-09-20',
+                 end: '2019-11-01',
                  progress: 40,
-                 belongsto: 1,
-                 mode: 2,
+                 belongsto: 9,
+                 mode: 4,
                  dx_s: 0,
                  dx_e: 0,
+                 status: 2,
              },
              {
                  id: '15',
-                 name: '落下試験2',
-                 start: '2019-08-20',
-                 end: '2019-12-01',
+                 name: '小項目4',
+                 start: '2019-09-20',
+                 end: '2019-11-01',
                  progress: 40,
-                 belongsto: 1,
-                 mode: 2,
+                 belongsto: 9,
+                 mode: 4,
                  dx_s: 0,
                  dx_e: 0,
+                 status: 2,
              },
          ],
      },
@@ -250,7 +270,38 @@ const router = new VueRouter({
              return (state.gantt_end - state.gantt_start) / 86400000;
          },
          getTasks (state) {
-             return state.tasks;
+             if (state.gantt_mode == "one") {
+                 return state.tasks.filter((obj)=>{
+                     return obj.mode != 1;
+                 })
+             }else{
+                 return state.tasks.filter((obj)=>{
+                     return obj.mode == 1;
+                 })
+             }
+         },
+         getProjects (state) {
+             return state.tasks.filter((obj)=>{
+                 return obj.mode == 1;
+             })
+         },
+         getTask4Report (state) {
+             return state.tasks.filter((obj)=>{
+                 return obj.mode == 2;
+             })
+         },
+         getTasksByPId (state) {
+             return id => state.tasks.filter((obj)=>{
+                 return obj.mode != 1 && obj.belongsto == id;
+             })
+         },
+         getTasksByStatus (state) {
+             return status => state.tasks.filter((obj)=>{
+                 return obj.status == status;
+             })
+         },
+         getGanttMode (state) {
+             return state.gantt_mode ;
          },
          getViewMode (state) {
              return state.option.view_mode;
@@ -287,8 +338,18 @@ const router = new VueRouter({
          setGanttEnd (state, date) {
              state.gantt_end = date
          },
-         setTask (state, index, task) {
-             state.tasks[index] = task
+         setTask (state, obj) {
+             // state.tasks[obj.index] = obj.task
+             state.tasks.splice(obj.index, 1, obj.task);
+         },
+         setGanttMode (state, mode) {
+             state.gantt_mode = mode;
+         },
+         setTaskdx_s (state, obj) {
+             state.tasks[obj.index].dx_s = obj.dx
+         },
+         setTaskdx_e (state, obj) {
+             state.tasks[obj.index].dx_e = obj.dx
          },
          setViewMode (state, mode) {
              state.option.view_mode = mode;
