@@ -13,7 +13,7 @@
             <div class="modal-body">
                 <slot name="body">
                     <div class="form-row">
-                        <div class="col-md-6 mb-2">
+                        <div class="col-md-12 mb-2">
                             <label class="label-modal">実績入力</label>
                             <input type="text" ref="target1" class="form-control" @focus="started_focus=true;$event.target.select();" @blur="time_focus=false;" maxlength="5">
                         </div>
@@ -70,7 +70,7 @@ export default {
     },
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .modal {
   &.modal-overlay {
     display: flex;
@@ -94,7 +94,7 @@ export default {
 
   &-content2 {
     margin: 0px auto;
-    width:900px;
+    width:450px;
     height:auto;
     max-height: 80vh;
     overflow-y:scroll;

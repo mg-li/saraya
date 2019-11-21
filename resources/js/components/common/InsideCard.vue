@@ -7,7 +7,7 @@
                     <div class="mr-auto">
                         <h5 class="card-title" :style="'color:' + color">{{task.name}}</h5>
                     </div>
-                    <div class="ml-auto" @click.capture.stop="input_time()" :key="buttonKey2">
+                    <div class="ml-auto" @click="input_time()">
                         <i class="icon ion-ios-clock"></i>
                     </div>
                 </div>
@@ -20,7 +20,7 @@
             </div>
         </div>
         <TaskModal @close="closeModal" v-if="modal" :id="task.id" :mode="mode"></TaskModal>
-        <Timer @close="closeModal2" v-if="modal2"></Timer>
+        <Timer @close="closeModal" v-if="modal2"></Timer>
     </div>
 </template>
 <script lang="">
@@ -44,29 +44,17 @@ import Timer from './modal/TimeInputModal.vue'
                 this.modal2 = true;
             },
             showTaskModal: function (mode) {
-                console.log("aaaa");
-                this.mode = mode;
-                this.modal = true;
-                // this.disableScroll();
+                if (!this.modal2) {
+                    this.mode = mode;
+                    this.modal = true;
+                }
             },
             closeModal() {
                 this.mode = '';
                 this.modal = false;
+                this.modal2 = false;
                 this.buttonKey++;
                 // this.enableScroll();
-            },
-            closeModal2() {
-                this.modal2 = false;
-                this.buttonKey2++;
-                // this.enableScroll();
-            },
-            disableScroll: function () {
-                var x=window.scrollX;
-                var y=window.scrollY;
-                window.onscroll=function(){window.scrollTo(x, y);};
-            },
-            enableScroll: function () {
-                window.onscroll=function(){};
             },
         },
         // watch: {},
