@@ -35483,7 +35483,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".home {\n  border: none;\n  background-color: unset;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n}\n.inside {\n  margin-top: 10px;\n  margin-left: 0 !important;\n  margin-right: 0 !important;\n}\n.inside:hover {\n  box-shadow: 0 0 10px #d3d3d3 inset;\n}\n.inside-bar {\n  width: 3%;\n  height: 100%;\n  position: absolute;\n  top: 0;\n  left: 0;\n  border-radius: 2px 0 0 2px;\n}\n.inside-context {\n  width: 100%;\n  height: 100%;\n}\nh5 {\n  font-weight: bold;\n}\n.card-board {\n  width: calc(100% - 30px);\n  height: 5px;\n  margin: auto;\n}\na:hover, a:active {\n  color: #175A8E;\n  color: var(--content-link-hover-active-color);\n  text-decoration: underline;\n}\na:hover, a:focus {\n  color: #16598c;\n}\na:active, a:hover {\n  outline: 0;\n}\na {\n  color: #175A8E;\n  color: var(--content-link-color);\n  text-decoration: none;\n}\na {\n  color: #1A67A3;\n  text-decoration: none;\n  line-height: inherit;\n}\n.card p {\n  margin-bottom: 0;\n}\n.inside-wrapper {\n  height: 570px;\n  overflow: hidden;\n}\n.inside-wrapper:hover {\n  overflow-y: scroll;\n}\n.inside-wrapper::-webkit-scrollbar {\n  height: 10px;\n  width: 0;\n}\n.inside-wrapper::-webkit-scrollbar-thumb {\n  background: #ddd;\n  visibility: hidden;\n}\n.inside-wrapper::-webkit-scrollbar-track {\n  background: 0 0;\n}", ""]);
+exports.push([module.i, ".home {\n  border: none;\n  background-color: unset;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n}\n.inside {\n  margin-bottom: 10px !important;\n  margin-left: 0 !important;\n  margin-right: 0 !important;\n}\n.inside:hover {\n  box-shadow: 0 0 10px #d3d3d3 inset;\n}\n.inside-bar {\n  width: 3%;\n  height: 100%;\n  position: absolute;\n  top: 0;\n  left: 0;\n  border-radius: 2px 0 0 2px;\n}\n.inside-context {\n  width: 100%;\n  height: 100%;\n}\nh5 {\n  font-weight: bold;\n}\n.card-board {\n  width: calc(100% - 30px);\n  height: 5px;\n  margin: auto;\n}\na:hover, a:active {\n  color: #175A8E;\n  color: var(--content-link-hover-active-color);\n  text-decoration: underline;\n}\na:hover, a:focus {\n  color: #16598c;\n}\na:active, a:hover {\n  outline: 0;\n}\na {\n  color: #175A8E;\n  color: var(--content-link-color);\n  text-decoration: none;\n}\na {\n  color: #1A67A3;\n  text-decoration: none;\n  line-height: inherit;\n}\n.card p {\n  margin-bottom: 0;\n}\n.inside-wrapper {\n  margin-top: 20px;\n  height: 580px;\n  overflow: hidden;\n}\n.inside-wrapper:hover {\n  overflow-y: scroll;\n}\n.inside-wrapper::-webkit-scrollbar {\n  height: 10px;\n  width: 0;\n}\n.inside-wrapper::-webkit-scrollbar-thumb {\n  background: #ddd;\n  visibility: hidden;\n}\n.inside-wrapper::-webkit-scrollbar-track {\n  background: 0 0;\n}", ""]);
 
 // exports
 
@@ -89455,7 +89455,6 @@ __webpack_require__.r(__webpack_exports__);
             if (document.getElementById('title-body')) {
                 document.getElementById('title-body').scrollTop = e.target.scrollTop;
             }
-
         },
         computeStartDay: function (tasks, index) {
             var finaldx = this.get_finaldx(tasks[index].dx_s);

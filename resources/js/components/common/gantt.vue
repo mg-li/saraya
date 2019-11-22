@@ -283,7 +283,6 @@
                 if (document.getElementById('title-body')) {
                     document.getElementById('title-body').scrollTop = e.target.scrollTop;
                 }
-
             },
             computeStartDay: function (tasks, index) {
                 var finaldx = this.get_finaldx(tasks[index].dx_s);

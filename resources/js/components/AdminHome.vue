@@ -103,7 +103,7 @@ export default {
     user-select: none;
 }
 .inside{
-    margin-top: 10px;
+    margin-bottom: 10px !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
 }
@@ -157,7 +157,8 @@ a {
     margin-bottom: 0;
 }
 .inside-wrapper {
-    height: 570px;
+    margin-top: 20px;
+    height: 580px;
     overflow: hidden;
 }
 .inside-wrapper:hover{
