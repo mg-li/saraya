@@ -5,10 +5,10 @@
             <div class="inside-context">
                 <div class="d-flex justify-content-start">
                     <div class="mr-auto">
-                        <h5 class="card-title" :style="'color:' + color">{{task.name}}</h5>
+                        <h5 class="card-title" :style="'color:' + color + 'margin-top: 5px;'">{{task.name}}</h5>
                     </div>
                     <div class="ml-auto" @click="input_time()">
-                        <i class="icon ion-ios-clock"></i>
+                        <i class="icon ion-ios-clock" style="font-size: 1.25em;"></i>
                     </div>
                 </div>
                 <p>説明文説明文説明文説明文説明文</p>

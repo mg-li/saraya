@@ -177,9 +177,9 @@
                 return (this.getThroughDays(new Date(task.start), new Date(task.end)) * this.column_width - task.dx_s + task.dx_e) * (task.progress / 100) || 0;
             },
             onMousedown: function (e,side,index,index2 = '') {
-
                 if (this.gantt_mode == 'one') {
-                    this.style = `left: ${e.clientX - this.ls}px; top: ${this.row_height * index - this.bs}px;`;
+                    var scroll_height = document.getElementById('gantt-body').scrollTop;
+                    this.style = `left: ${e.clientX - this.ls}px; top: ${this.row_height * index - this.bs - scroll_height}px;`;
                     this.resizing_task_index = index;
                     this.x_on_start = e.offsetX;
                     if (side == 'left') {
@@ -240,7 +240,8 @@
             resizing: function (e) {
                 var dx = e.offsetX - this.x_on_start;
                 if (this.resizing_task_index !== '' ){
-                    this.style = `left: ${e.clientX - this.ls}px; top: ${this.row_height * this.resizing_task_index - this.bs}px;`;
+                    var scroll_height = document.getElementById('gantt-body').scrollTop;
+                    this.style = `left: ${e.clientX - this.ls}px; top: ${this.row_height * this.resizing_task_index - this.bs - scroll_height}px;`;
 
                     if (this.is_resizing_left) {
                         this.tasks[this.resizing_task_index].dx_s = dx;

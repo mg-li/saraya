@@ -194,7 +194,13 @@ export default {
         },
         showPopMenu: function (e, task) {
             this.selected_id = task.id;
-            this.pop_menu_style = `left: ${e.clientX}px;top: ${e.clientY}px;`;
+
+            if (e.clientY + 142 > window.innerHeight) {
+                this.pop_menu_style = `left: ${e.clientX}px;top: ${e.clientY - 142}px;`;
+            }else{
+                this.pop_menu_style = `left: ${e.clientX}px;top: ${e.clientY}px;`;
+            }
+
 
             this.isShowPopMenu = true;
         },

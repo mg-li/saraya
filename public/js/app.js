@@ -2213,7 +2213,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     showPopMenu: function showPopMenu(e, task) {
       this.selected_id = task.id;
-      this.pop_menu_style = "left: ".concat(e.clientX, "px;top: ").concat(e.clientY, "px;");
+
+      if (e.clientY + 142 > window.innerHeight) {
+        this.pop_menu_style = "left: ".concat(e.clientX, "px;top: ").concat(e.clientY - 142, "px;");
+      } else {
+        this.pop_menu_style = "left: ".concat(e.clientX, "px;top: ").concat(e.clientY, "px;");
+      }
+
       this.isShowPopMenu = true;
     },
     closeModal: function closeModal() {
@@ -2778,15 +2784,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_loading_overlay_dist_vue_loading_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_loading_overlay_dist_vue_loading_css__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -35695,7 +35692,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".modal.modal-overlay[data-v-7683ff1b] {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n          justify-content: center;\n  position: fixed;\n  z-index: 30;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n}\n.modal-window[data-v-7683ff1b] {\n  background: rgba(45, 45, 45, 0.8);\n  border-radius: 4px;\n  overflow: hidden;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);\n}\n.modal-content2[data-v-7683ff1b] {\n  margin: 0px auto;\n  width: 450px;\n  height: auto;\n  max-height: 80vh;\n  overflow-y: scroll;\n  font-family: Helvetica, Arial, sans-serif;\n}\n.modal-body[data-v-7683ff1b] {\n  padding: 20px 50px;\n}\n.modal-footer[data-v-7683ff1b] {\n  padding: 10px;\n  text-align: right;\n}\n.modal-enter-active[data-v-7683ff1b], .modal-leave-active[data-v-7683ff1b] {\n  -webkit-transition: opacity 0.4s;\n  transition: opacity 0.4s;\n}\n.modal-enter-active .modal-window[data-v-7683ff1b], .modal-leave-active .modal-window[data-v-7683ff1b] {\n  -webkit-transition: opacity 0.4s, -webkit-transform 0.4s;\n  transition: opacity 0.4s, -webkit-transform 0.4s;\n  transition: opacity 0.4s, transform 0.4s;\n  transition: opacity 0.4s, transform 0.4s, -webkit-transform 0.4s;\n}\n.modal-leave-active[data-v-7683ff1b] {\n  -webkit-transition: opacity 0.6s ease 0.4s;\n  transition: opacity 0.6s ease 0.4s;\n}\n.modal-enter[data-v-7683ff1b], .modal-leave-to[data-v-7683ff1b] {\n  opacity: 0;\n}\n.modal-enter .modal-window[data-v-7683ff1b], .modal-leave-to .modal-window[data-v-7683ff1b] {\n  opacity: 0;\n  -webkit-transform: translateY(-20px);\n          transform: translateY(-20px);\n}\n.modal-header h3[data-v-7683ff1b] {\n  margin-top: 0;\n  color: #aafbd6;\n}\n.modal-body[data-v-7683ff1b] {\n  margin: 20px 0;\n}", ""]);
+exports.push([module.i, ".modal.modal-overlay[data-v-7683ff1b] {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n          justify-content: center;\n  position: fixed;\n  z-index: 30;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n}\n.modal-window[data-v-7683ff1b] {\n  background: rgba(45, 45, 45, 0.95);\n  border-radius: 4px;\n  overflow: hidden;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);\n}\n.modal-content3[data-v-7683ff1b] {\n  margin: 0px auto;\n  width: 300px;\n  height: auto;\n  max-height: 80vh;\n  font-family: Helvetica, Arial, sans-serif;\n}\n.modal-body[data-v-7683ff1b] {\n  padding: 20px 20px 0px 20px;\n}\n.modal-footer[data-v-7683ff1b] {\n  padding: 10px;\n  text-align: right;\n}\n.modal-enter-active[data-v-7683ff1b], .modal-leave-active[data-v-7683ff1b] {\n  -webkit-transition: opacity 0.4s;\n  transition: opacity 0.4s;\n}\n.modal-enter-active .modal-window[data-v-7683ff1b], .modal-leave-active .modal-window[data-v-7683ff1b] {\n  -webkit-transition: opacity 0.4s, -webkit-transform 0.4s;\n  transition: opacity 0.4s, -webkit-transform 0.4s;\n  transition: opacity 0.4s, transform 0.4s;\n  transition: opacity 0.4s, transform 0.4s, -webkit-transform 0.4s;\n}\n.modal-leave-active[data-v-7683ff1b] {\n  -webkit-transition: opacity 0.6s ease 0.4s;\n  transition: opacity 0.6s ease 0.4s;\n}\n.modal-enter[data-v-7683ff1b], .modal-leave-to[data-v-7683ff1b] {\n  opacity: 0;\n}\n.modal-enter .modal-window[data-v-7683ff1b], .modal-leave-to .modal-window[data-v-7683ff1b] {\n  opacity: 0;\n  -webkit-transform: translateY(-20px);\n          transform: translateY(-20px);\n}\n.modal-header h3[data-v-7683ff1b] {\n  margin-top: 0;\n  color: #aafbd6;\n}\n.modal-body[data-v-7683ff1b] {\n  margin: 20px 0;\n}", ""]);
 
 // exports
 
@@ -89352,9 +89349,9 @@ __webpack_require__.r(__webpack_exports__);
             return (this.getThroughDays(new Date(task.start), new Date(task.end)) * this.column_width - task.dx_s + task.dx_e) * (task.progress / 100) || 0;
         },
         onMousedown: function (e,side,index,index2 = '') {
-
             if (this.gantt_mode == 'one') {
-                this.style = `left: ${e.clientX - this.ls}px; top: ${this.row_height * index - this.bs}px;`;
+                var scroll_height = document.getElementById('gantt-body').scrollTop;
+                this.style = `left: ${e.clientX - this.ls}px; top: ${this.row_height * index - this.bs - scroll_height}px;`;
                 this.resizing_task_index = index;
                 this.x_on_start = e.offsetX;
                 if (side == 'left') {
@@ -89415,7 +89412,8 @@ __webpack_require__.r(__webpack_exports__);
         resizing: function (e) {
             var dx = e.offsetX - this.x_on_start;
             if (this.resizing_task_index !== '' ){
-                this.style = `left: ${e.clientX - this.ls}px; top: ${this.row_height * this.resizing_task_index - this.bs}px;`;
+                var scroll_height = document.getElementById('gantt-body').scrollTop;
+                this.style = `left: ${e.clientX - this.ls}px; top: ${this.row_height * this.resizing_task_index - this.bs - scroll_height}px;`;
 
                 if (this.is_resizing_left) {
                     this.tasks[this.resizing_task_index].dx_s = dx;
@@ -91276,7 +91274,10 @@ var render = function() {
             _c("div", { staticClass: "mr-auto" }, [
               _c(
                 "h5",
-                { staticClass: "card-title", style: "color:" + _vm.color },
+                {
+                  staticClass: "card-title",
+                  style: "color:" + _vm.color + "margin-top: 5px;"
+                },
                 [_vm._v(_vm._s(_vm.task.name))]
               )
             ]),
@@ -91291,7 +91292,12 @@ var render = function() {
                   }
                 }
               },
-              [_c("i", { staticClass: "icon ion-ios-clock" })]
+              [
+                _c("i", {
+                  staticClass: "icon ion-ios-clock",
+                  staticStyle: { "font-size": "1.25em" }
+                })
+              ]
             )
           ]),
           _vm._v(" "),
@@ -92377,33 +92383,27 @@ var render = function() {
       { staticClass: "modal modal-overlay" },
       [
         _c("div", { staticClass: "modal-window" }, [
-          _c("div", { staticClass: "modal-content2" }, [
-            _c(
-              "div",
-              { staticClass: "modal-header" },
-              [
-                _vm._t("header", [
-                  _c("h3", { attrs: { slot: "header" }, slot: "header" }, [
-                    _vm._v(
-                      "\n                      実績入力\n                  "
-                    )
-                  ])
-                ])
-              ],
-              2
-            ),
-            _vm._v(" "),
+          _c("div", { staticClass: "modal-content3" }, [
             _c(
               "div",
               { staticClass: "modal-body" },
               [
                 _vm._t("body", [
+                  _c("div", { staticClass: "d-flex justify-content-start" }, [
+                    _c("div", { staticClass: "mr-auto" }, [
+                      _c(
+                        "h4",
+                        {
+                          staticClass: "card-title",
+                          staticStyle: { color: "#FFF", "font-weight": "bold" }
+                        },
+                        [_vm._v("実績入力")]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
                   _c("div", { staticClass: "form-row" }, [
                     _c("div", { staticClass: "col-md-12 mb-2" }, [
-                      _c("label", { staticClass: "label-modal" }, [
-                        _vm._v("実績入力")
-                      ]),
-                      _vm._v(" "),
                       _c("input", {
                         ref: "target1",
                         staticClass: "form-control",
@@ -92419,60 +92419,56 @@ var render = function() {
                         }
                       })
                     ])
-                  ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "d-flex justify-content-start",
+                      staticStyle: { "margin-top": "20px" }
+                    },
+                    [
+                      _c("div", { staticClass: "mr-auto" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary",
+                            on: {
+                              click: function($event) {
+                                if ($event.target !== $event.currentTarget) {
+                                  return null
+                                }
+                                return _vm.$emit("close")
+                              }
+                            }
+                          },
+                          [_vm._v("取消")]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "ml-auto" }, [
+                        _vm.$root.user_type == 1
+                          ? _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-primary",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.onSave()
+                                  }
+                                }
+                              },
+                              [_vm._v("確認")]
+                            )
+                          : _vm._e()
+                      ])
+                    ]
+                  )
                 ])
               ],
               2
             )
-          ]),
-          _vm._v(" "),
-          _c(
-            "footer",
-            { staticClass: "modal-footer" },
-            [
-              _vm._t("footer", [
-                _c("div", { staticClass: "container" }, [
-                  _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "col-auto mr-auto" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-primary",
-                          on: {
-                            click: function($event) {
-                              if ($event.target !== $event.currentTarget) {
-                                return null
-                              }
-                              return _vm.$emit("close")
-                            }
-                          }
-                        },
-                        [_vm._v("閉じる")]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-auto" }, [
-                      _vm.$root.user_type == 1
-                        ? _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-primary",
-                              on: {
-                                click: function($event) {
-                                  return _vm.onSave()
-                                }
-                              }
-                            },
-                            [_vm._v("保存する")]
-                          )
-                        : _vm._e()
-                    ])
-                  ])
-                ])
-              ])
-            ],
-            2
-          )
+          ])
         ]),
         _vm._v(" "),
         _c("loading", {

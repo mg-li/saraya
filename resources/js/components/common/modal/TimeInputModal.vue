@@ -2,39 +2,30 @@
   <transition name="modal2" appear>
     <div class="modal modal-overlay"><!--@click.self="$emit('close')"-->
       <div class="modal-window">
-        <div class="modal-content2">
-            <div class="modal-header">
-                <slot name="header">
-                    <h3 slot="header">
-                        実績入力
-                    </h3>
-                </slot>
-            </div>
+        <div class="modal-content3">
             <div class="modal-body">
                 <slot name="body">
+                    <div class="d-flex justify-content-start">
+                        <div class="mr-auto">
+                            <h4 class="card-title" style="color:#FFF;font-weight:bold;">実績入力</h4>
+                        </div>
+                    </div>
                     <div class="form-row">
                         <div class="col-md-12 mb-2">
-                            <label class="label-modal">実績入力</label>
                             <input type="text" ref="target1" class="form-control" @focus="started_focus=true;$event.target.select();" @blur="time_focus=false;" maxlength="5">
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-start" style="margin-top:20px;">
+                        <div class="mr-auto">
+                            <button class="btn btn-primary" @click.self="$emit('close')">取消</button>
+                        </div>
+                        <div class="ml-auto">
+                            <button v-if="$root.user_type == 1" class="btn btn-primary" @click="onSave()">確認</button>
                         </div>
                     </div>
                 </slot>
             </div>
         </div>
-        <footer class="modal-footer">
-            <slot name="footer">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-auto mr-auto">
-                            <button class="btn btn-primary" @click.self="$emit('close')">閉じる</button>
-                        </div>
-                        <div class="col-auto">
-                            <button v-if="$root.user_type == 1" class="btn btn-primary" @click="onSave()">保存する</button>
-                        </div>
-                    </div>
-                </div>
-            </slot>
-        </footer>
       </div>
       <loading :active.sync="isLoading"></loading>
     </div>
@@ -86,23 +77,23 @@ export default {
   }
 
   &-window {
-    background: rgba(45, 45, 45, 0.8);;
+    background: rgba(45, 45, 45, 0.95);
     border-radius: 4px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
   }
 
-  &-content2 {
+  &-content3 {
     margin: 0px auto;
-    width:450px;
+    width:300px;
     height:auto;
     max-height: 80vh;
-    overflow-y:scroll;
+    // overflow-y:scroll;
     font-family: Helvetica, Arial, sans-serif;
   }
 
   &-body {
-    padding: 20px 50px;
+    padding: 20px 20px 0px 20px;
   }
 
   &-footer {
