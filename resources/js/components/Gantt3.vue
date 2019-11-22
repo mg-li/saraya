@@ -1,6 +1,6 @@
 <template>
 <div @click="isShowPopMenu = false">
-    <div class="row" style="margin-right:0;margin-left:0;">
+    <div class="form-row" style="margin-right:0;margin-left:0;">
         <div class="form-group">
             <div class="input-group" id="datetimepicker1">
                 <Datepicker input-class="form-control" @change="changeDate()" v-model="gantt_start" :value="gantt_start" :format="DatePickerFormat" :language="ja"></Datepicker>
@@ -18,12 +18,7 @@
                 </span>
             </div>
         </div>
-    </div>
-    <div style="display:flex;">
-        <div style="width: 315px;">
-            <input type="range" class="form-control-range" id="formControlRange" min="0" max="315" v-model="title_range" step="1">
-        </div>
-        <div style="width: 100px;margin-left: 20px;">
+        <div style="width: 100px;margin-left: 50px;">
             <button class="btn btn-primary" @click="changeViewMode('day')">日</button>
         </div>
         <div style="width: 100px;margin-left: 20px;">
@@ -35,6 +30,12 @@
         <div style="width: 100px;margin-left: 20px;">
             <button class="btn btn-primary" @click="changeViewMode('year')">年</button>
         </div>
+    </div>
+    <div style="display:flex;">
+        <div style="width: 315px;">
+            <input type="range" class="form-control-range" id="formControlRange" min="0" max="315" v-model="title_range" step="1">
+        </div>
+
     </div>
 
     <!-- <i class="fas fa-plus"></i> -->
@@ -178,10 +179,10 @@ export default {
             this.$store.commit('setViewMode', mode);
         },
         createTaskName: function (task) {
-            if (task.mode == 3) {
+            if (task.mode == 2) {
                 return "　　" + task.name
             }
-            if (task.mode == 4) {
+            if (task.mode == 3) {
                 return "　　　　" + task.name
             }
             return task.name;

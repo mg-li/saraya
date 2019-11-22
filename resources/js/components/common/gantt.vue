@@ -28,14 +28,14 @@
                                       <animate attributeName="width" from="0" :to="compute_width(task)" dur="0.4s" begin="0.1s" calcMode="spline" :values="'0;'+compute_width(task)" keyTimes="0; 1" keySplines="0 0 .58 1"></animate>
                                 </rect>
                                 <!-- タスク　プログレスバー -->
-                                <rect v-if="gantt_mode == 'one'" :x="compute_x(task)" :y="compute_y(task, index3)"
+                                <rect v-if="gantt_mode == 't'" :x="compute_x(task)" :y="compute_y(task, index3)"
                                       :width="compute_progress_width(task)" :height="$store.getters.getBarHeight"
                                       rx="3" ry="3" class="bar-progress" @mousedown="onMousedown($event,'',index3)">
                                       <animate attributeName="width" from="0" :to="compute_progress_width(task)" dur="0.4s" begin="0.1s" calcMode="spline" :values="'0;'+compute_progress_width(task)" keyTimes="0; 1" keySplines="0 0 .58 1"></animate>
                                 </rect>
                                 <text :x="compute_x(task) + compute_width(task) + 5" :y="compute_y(task, index3) + $store.getters.getBarHeight / 2" class="bar-label big">{{task.name}}</text>
                                 <!-- 案件色付け割合表示 -->
-                                <template v-for="(p, index4) in gantt_task_4_report" v-if="gantt_mode == 'all'">
+                                <template v-if="gantt_mode == 'p'" v-for="(p, index4) in getProject_P_4_Display(task)">
                                     <rect :x="compute_x(p)" :y="compute_y(p, index3)"
                                           :width="compute_width(p)" :height="$store.getters.getBarHeight"
                                           rx="1" ry="1" :class="'bar-progress' + (index4 + 1)" @mousedown="onMousedown($event,'',index4, index3)">
@@ -47,7 +47,7 @@
                                 </template>
 
                             </g>
-                            <g class="handle-group" v-if="gantt_mode == 'one'">
+                            <g class="handle-group" v-if="gantt_mode == 't'">
                                 <rect :x="compute_x(task) - 1" :y="compute_y(task, index3) - 1"
                                       width="5" :height="$store.getters.getBarHeight + 2"
                                       rx="1" ry="1" class="handle left" @mousedown="onMousedown($event,'left',index3)">
@@ -63,15 +63,15 @@
                 </svg>
             </div>
         </div>
-        <div class="task-popup" v-if="resizing_task_index !== ''" :style="style">
+        <div class="task-popup" v-if="resizing_task_index !== '' && gantt_mode == 't'" :style="style">
             {{tasks[resizing_task_index].name}}<br>
             開始： {{computeStartDay(tasks, resizing_task_index)}}<br>
             終了： {{computeEndDay(tasks, resizing_task_index)}}
         </div>
-        <div class="task-popup" v-if="task_4_report_index !== ''" :style="style">
-            {{gantt_task_4_report[task_4_report_index].name}}<br>
-            開始： {{computeStartDay(gantt_task_4_report, task_4_report_index)}}<br>
-            終了： {{computeEndDay(gantt_task_4_report, task_4_report_index)}}
+        <div class="task-popup" v-if="task_4_report_index !== '' && resizing_task_index !== ''" :style="style">
+            {{getProject_P_4_Display(tasks[resizing_task_index])[task_4_report_index].name}}<br>
+            開始： {{computeStartDay(getProject_P_4_Display(tasks[resizing_task_index]), task_4_report_index)}}<br>
+            終了： {{computeEndDay(getProject_P_4_Display(tasks[resizing_task_index]), task_4_report_index)}}
         </div>
     </div>
 </template>
@@ -115,9 +115,6 @@
             gantt_mode () {
                 return this.$store.getters.getGanttMode;
             },
-            gantt_task_4_report () {
-                return this.$store.getters.getTask4Report;
-            }
         },
         methods: {
             getDate: function() {
@@ -177,10 +174,11 @@
                 return (this.getThroughDays(new Date(task.start), new Date(task.end)) * this.column_width - task.dx_s + task.dx_e) * (task.progress / 100) || 0;
             },
             onMousedown: function (e,side,index,index2 = '') {
-                if (this.gantt_mode == 'one') {
+
+                if (this.gantt_mode == 't') {
+                    this.resizing_task_index = index;
                     var scroll_height = document.getElementById('gantt-body').scrollTop;
                     this.style = `left: ${e.clientX - this.ls}px; top: ${this.row_height * index - this.bs - scroll_height}px;`;
-                    this.resizing_task_index = index;
                     this.x_on_start = e.offsetX;
                     if (side == 'left') {
                         this.is_resizing_left = true;
@@ -193,11 +191,13 @@
                     }
                 }else{
                     this.style = `left: ${e.clientX - this.ls}px; top: ${this.row_height * index2 - this.bs}px;`;
+                    this.resizing_task_index = index2;
                     this.task_4_report_index = index;
+
                 }
             },
             onMouseup: function () {
-                if (this.resizing_task_index !== '') {
+                if (this.resizing_task_index !== '' && this.gantt_mode == 't') {
                     var finaldx = 0;
                     if (this.is_resizing_left) {
                         finaldx = this.get_finaldx(this.tasks[this.resizing_task_index].dx_s);
@@ -227,11 +227,11 @@
                         this.tasks[this.resizing_task_index].dx_s = 0;
                         this.tasks[this.resizing_task_index].dx_e = 0;
                     }
-                    this.resizing_task_index = '';
                 }
-                if (this.task_4_report_index !== '') {
-                    this.task_4_report_index = '';
-                }
+
+                this.task_4_report_index = '';
+                this.resizing_task_index = '';
+
                 this.is_resizing_left = false;
                 this.is_resizing_right = false;
                 this.is_resizing_polygon = false;
@@ -295,6 +295,16 @@
                 var task_end = new Date(tasks[index].end);
                 var temp_date = new Date(task_end.setDate(task_end.getDate() + finaldx));
                 return this.setDateFormat(temp_date, "年", "月", "日");
+            },
+            getProject_P_4_Display: function (project) {
+                if (this.gantt_mode == 'p') {
+                    return project.tasks.filter((obj)=>{
+                        return obj.mode == 1;
+                    });
+                }else{
+                    return [];
+                }
+
             },
         },
         // watch: {},

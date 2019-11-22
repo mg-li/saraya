@@ -83,7 +83,7 @@ export default {
     },
     methods: {
         getTasksByStatus: function (status) {
-            if (this.$store.getters.getGanttMode == 'one') {
+            if (this.$store.getters.getGanttMode == 't') {
                 return this.$store.getters.getTasksByStatus(status);
             }else{
                 return [];

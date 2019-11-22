@@ -68,9 +68,10 @@ export default {
     watch: {
         taskId () {
             if (!this.taskId) {
-                this.$store.commit('setGanttMode', "all");
+                this.$store.commit('setGanttMode', "p");
             }else{
-                this.$store.commit('setGanttMode', "one");
+                this.$store.commit('setGanttMode', "t");
+                this.$store.commit('setSelectedPid', this.taskId);
             }
         }
     },

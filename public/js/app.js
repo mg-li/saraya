@@ -1776,7 +1776,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getTasksByStatus: function getTasksByStatus(status) {
-      if (this.$store.getters.getGanttMode == 'one') {
+      if (this.$store.getters.getGanttMode == 't') {
         return this.$store.getters.getTasksByStatus(status);
       } else {
         return [];
@@ -2123,6 +2123,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2195,11 +2196,11 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.commit('setViewMode', mode);
     },
     createTaskName: function createTaskName(task) {
-      if (task.mode == 3) {
+      if (task.mode == 2) {
         return "　　" + task.name;
       }
 
-      if (task.mode == 4) {
+      if (task.mode == 3) {
         return "　　　　" + task.name;
       }
 
@@ -2327,9 +2328,10 @@ __webpack_require__.r(__webpack_exports__);
   watch: {
     taskId: function taskId() {
       if (!this.taskId) {
-        this.$store.commit('setGanttMode', "all");
+        this.$store.commit('setGanttMode', "p");
       } else {
-        this.$store.commit('setGanttMode', "one");
+        this.$store.commit('setGanttMode', "t");
+        this.$store.commit('setSelectedPid', this.taskId);
       }
     }
   },
@@ -89287,9 +89289,6 @@ __webpack_require__.r(__webpack_exports__);
         gantt_mode () {
             return this.$store.getters.getGanttMode;
         },
-        gantt_task_4_report () {
-            return this.$store.getters.getTask4Report;
-        }
     },
     methods: {
         getDate: function() {
@@ -89349,10 +89348,11 @@ __webpack_require__.r(__webpack_exports__);
             return (this.getThroughDays(new Date(task.start), new Date(task.end)) * this.column_width - task.dx_s + task.dx_e) * (task.progress / 100) || 0;
         },
         onMousedown: function (e,side,index,index2 = '') {
-            if (this.gantt_mode == 'one') {
+
+            if (this.gantt_mode == 't') {
+                this.resizing_task_index = index;
                 var scroll_height = document.getElementById('gantt-body').scrollTop;
                 this.style = `left: ${e.clientX - this.ls}px; top: ${this.row_height * index - this.bs - scroll_height}px;`;
-                this.resizing_task_index = index;
                 this.x_on_start = e.offsetX;
                 if (side == 'left') {
                     this.is_resizing_left = true;
@@ -89365,11 +89365,13 @@ __webpack_require__.r(__webpack_exports__);
                 }
             }else{
                 this.style = `left: ${e.clientX - this.ls}px; top: ${this.row_height * index2 - this.bs}px;`;
+                this.resizing_task_index = index2;
                 this.task_4_report_index = index;
+
             }
         },
         onMouseup: function () {
-            if (this.resizing_task_index !== '') {
+            if (this.resizing_task_index !== '' && this.gantt_mode == 't') {
                 var finaldx = 0;
                 if (this.is_resizing_left) {
                     finaldx = this.get_finaldx(this.tasks[this.resizing_task_index].dx_s);
@@ -89399,11 +89401,11 @@ __webpack_require__.r(__webpack_exports__);
                     this.tasks[this.resizing_task_index].dx_s = 0;
                     this.tasks[this.resizing_task_index].dx_e = 0;
                 }
-                this.resizing_task_index = '';
             }
-            if (this.task_4_report_index !== '') {
-                this.task_4_report_index = '';
-            }
+
+            this.task_4_report_index = '';
+            this.resizing_task_index = '';
+
             this.is_resizing_left = false;
             this.is_resizing_right = false;
             this.is_resizing_polygon = false;
@@ -89467,6 +89469,16 @@ __webpack_require__.r(__webpack_exports__);
             var task_end = new Date(tasks[index].end);
             var temp_date = new Date(task_end.setDate(task_end.getDate() + finaldx));
             return this.setDateFormat(temp_date, "年", "月", "日");
+        },
+        getProject_P_4_Display: function (project) {
+            if (this.gantt_mode == 'p') {
+                return project.tasks.filter((obj)=>{
+                    return obj.mode == 1;
+                });
+            }else{
+                return [];
+            }
+
         },
     },
     // watch: {},
@@ -90138,7 +90150,7 @@ var render = function() {
       _c(
         "div",
         {
-          staticClass: "row",
+          staticClass: "form-row",
           staticStyle: { "margin-right": "0", "margin-left": "0" }
         },
         [
@@ -90209,7 +90221,83 @@ var render = function() {
               ],
               1
             )
-          ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticStyle: { width: "100px", "margin-left": "50px" } },
+            [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  on: {
+                    click: function($event) {
+                      return _vm.changeViewMode("day")
+                    }
+                  }
+                },
+                [_vm._v("日")]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticStyle: { width: "100px", "margin-left": "20px" } },
+            [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  on: {
+                    click: function($event) {
+                      return _vm.changeViewMode("week")
+                    }
+                  }
+                },
+                [_vm._v("週")]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticStyle: { width: "100px", "margin-left": "20px" } },
+            [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  on: {
+                    click: function($event) {
+                      return _vm.changeViewMode("month")
+                    }
+                  }
+                },
+                [_vm._v("月")]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticStyle: { width: "100px", "margin-left": "20px" } },
+            [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  on: {
+                    click: function($event) {
+                      return _vm.changeViewMode("year")
+                    }
+                  }
+                },
+                [_vm._v("年")]
+              )
+            ]
+          )
         ]
       ),
       _vm._v(" "),
@@ -90239,66 +90327,6 @@ var render = function() {
               }
             }
           })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticStyle: { width: "100px", "margin-left": "20px" } }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary",
-              on: {
-                click: function($event) {
-                  return _vm.changeViewMode("day")
-                }
-              }
-            },
-            [_vm._v("日")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticStyle: { width: "100px", "margin-left": "20px" } }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary",
-              on: {
-                click: function($event) {
-                  return _vm.changeViewMode("week")
-                }
-              }
-            },
-            [_vm._v("週")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticStyle: { width: "100px", "margin-left": "20px" } }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary",
-              on: {
-                click: function($event) {
-                  return _vm.changeViewMode("month")
-                }
-              }
-            },
-            [_vm._v("月")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticStyle: { width: "100px", "margin-left": "20px" } }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary",
-              on: {
-                click: function($event) {
-                  return _vm.changeViewMode("year")
-                }
-              }
-            },
-            [_vm._v("年")]
-          )
         ])
       ]),
       _vm._v(" "),
@@ -91022,51 +91050,58 @@ var render = function() {
         _vm._m(0)
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "table-responsive" }, [
-        _c(
-          "table",
-          {
-            staticClass: "table text-nowrap table-hover table-bordered addTop"
-          },
-          [
-            _vm._m(1),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.tasks, function(task, index) {
-                return _c("tr", [
-                  _vm._m(2, true),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("2610")]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "align-middle text-center" }, [
-                    _vm._v("機能")
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "align-middle text-center" }, [
-                    _vm._v("新規")
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "align-middle text-center" }, [
-                    _vm._v("高い")
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(task.name))]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "align-middle text-center" }, [
-                    _vm._v("2019/08/07 16:38")
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "align-middle text-center" }, [
-                    _vm._v("・・・")
+      _c(
+        "div",
+        {
+          staticClass: "table-responsive",
+          staticStyle: { "max-height": "550px" }
+        },
+        [
+          _c(
+            "table",
+            {
+              staticClass: "table text-nowrap table-hover table-bordered addTop"
+            },
+            [
+              _vm._m(1),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.tasks, function(task, index) {
+                  return _c("tr", [
+                    _vm._m(2, true),
+                    _vm._v(" "),
+                    _c("td", [_vm._v("#" + _vm._s(task.id))]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "align-middle text-center" }, [
+                      _vm._v("機能")
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "align-middle text-center" }, [
+                      _vm._v("新規")
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "align-middle text-center" }, [
+                      _vm._v("高い")
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(task.name))]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "align-middle text-center" }, [
+                      _vm._v("2019/08/07 16:38")
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "align-middle text-center" }, [
+                      _vm._v("・・・")
+                    ])
                   ])
-                ])
-              }),
-              0
-            )
-          ]
-        )
-      ])
+                }),
+                0
+              )
+            ]
+          )
+        ]
+      )
     ])
   ])
 }
@@ -91618,7 +91653,7 @@ var render = function() {
                                 ]
                               ),
                               _vm._v(" "),
-                              _vm.gantt_mode == "one"
+                              _vm.gantt_mode == "t"
                                 ? _c(
                                     "rect",
                                     {
@@ -91678,11 +91713,11 @@ var render = function() {
                                 [_vm._v(_vm._s(task.name))]
                               ),
                               _vm._v(" "),
-                              _vm._l(_vm.gantt_task_4_report, function(
+                              _vm._l(_vm.getProject_P_4_Display(task), function(
                                 p,
                                 index4
                               ) {
-                                return _vm.gantt_mode == "all"
+                                return _vm.gantt_mode == "p"
                                   ? [
                                       _c(
                                         "rect",
@@ -91766,7 +91801,7 @@ var render = function() {
                             2
                           ),
                           _vm._v(" "),
-                          _vm.gantt_mode == "one"
+                          _vm.gantt_mode == "t"
                             ? _c("g", { staticClass: "handle-group" }, [
                                 _c("rect", {
                                   staticClass: "handle left",
@@ -91843,7 +91878,7 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _vm.resizing_task_index !== ""
+      _vm.resizing_task_index !== "" && _vm.gantt_mode == "t"
         ? _c("div", { staticClass: "task-popup", style: _vm.style }, [
             _vm._v(
               "\n        " + _vm._s(_vm.tasks[_vm.resizing_task_index].name)
@@ -91862,18 +91897,24 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _vm.task_4_report_index !== ""
+      _vm.task_4_report_index !== "" && _vm.resizing_task_index !== ""
         ? _c("div", { staticClass: "task-popup", style: _vm.style }, [
             _vm._v(
               "\n        " +
-                _vm._s(_vm.gantt_task_4_report[_vm.task_4_report_index].name)
+                _vm._s(
+                  _vm.getProject_P_4_Display(
+                    _vm.tasks[_vm.resizing_task_index]
+                  )[_vm.task_4_report_index].name
+                )
             ),
             _c("br"),
             _vm._v(
               "\n        開始： " +
                 _vm._s(
                   _vm.computeStartDay(
-                    _vm.gantt_task_4_report,
+                    _vm.getProject_P_4_Display(
+                      _vm.tasks[_vm.resizing_task_index]
+                    ),
                     _vm.task_4_report_index
                   )
                 )
@@ -91883,7 +91924,9 @@ var render = function() {
               "\n        終了： " +
                 _vm._s(
                   _vm.computeEndDay(
-                    _vm.gantt_task_4_report,
+                    _vm.getProject_P_4_Display(
+                      _vm.tasks[_vm.resizing_task_index]
+                    ),
                     _vm.task_4_report_index
                   )
                 ) +
@@ -110982,7 +111025,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     dates: [],
     gantt_start: '',
     gantt_end: '',
-    gantt_mode: 'all',
+    gantt_mode: 'p',
     option: {
       step: 24,
       header_height: 60,
@@ -110992,175 +111035,195 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       bar_height: 25,
       padding: 18
     },
-    tasks: [{
+    selected_pId: '',
+    projects: [{
       id: '1',
       name: '案件名1',
       start: '2019-01-01',
       end: '2019-12-01',
-      progress: 0,
-      belongsto: 0,
-      mode: 1,
       dx_s: 0,
       dx_e: 0,
-      status: 0
+      tasks: [{
+        id: '1',
+        name: '処方',
+        start: '2019-01-01',
+        end: '2019-03-20',
+        progress: 80,
+        project_id: 1,
+        belongsto: '',
+        mode: 1,
+        dx_s: 0,
+        dx_e: 0,
+        status: 0 // dependencies: '1'
+
+      }, {
+        id: '2',
+        name: '処方検討',
+        start: '2019-01-01',
+        end: '2019-01-31',
+        progress: 40,
+        project_id: '',
+        belongsto: 1,
+        mode: 2,
+        dx_s: 0,
+        dx_e: 0,
+        status: 0 // dependencies: '2'
+
+      }, {
+        id: '3',
+        name: '小項目1',
+        start: '2019-01-01',
+        end: '2019-01-08',
+        progress: 40,
+        project_id: '',
+        belongsto: 2,
+        mode: 3,
+        dx_s: 0,
+        dx_e: 0,
+        status: 3
+      }, {
+        id: '4',
+        name: '小項目2',
+        start: '2019-01-08',
+        end: '2019-01-31',
+        progress: 40,
+        project_id: '',
+        belongsto: 2,
+        mode: 3,
+        dx_s: 0,
+        dx_e: 0,
+        status: 1
+      }, {
+        id: '5',
+        name: '実使用アンケート(絶対評価)',
+        start: '2019-01-31',
+        end: '2019-02-20',
+        progress: 40,
+        project_id: '',
+        belongsto: 1,
+        mode: 2,
+        dx_s: 0,
+        dx_e: 0,
+        dependencies: '3',
+        status: 0
+      }, {
+        id: '6',
+        name: '商品の性能評価',
+        start: '2019-02-20',
+        end: '2019-03-20',
+        progress: 40,
+        project_id: '',
+        belongsto: 1,
+        mode: 2,
+        dx_s: 0,
+        dx_e: 0,
+        dependencies: '6',
+        status: 0
+      }, {
+        id: '7',
+        name: '容器',
+        start: '2019-03-20',
+        end: '2019-08-20',
+        progress: 40,
+        project_id: 1,
+        belongsto: '',
+        mode: 1,
+        dx_s: 0,
+        dx_e: 0,
+        status: 0
+      }, {
+        id: '8',
+        name: '落下試験',
+        start: '2019-08-20',
+        end: '2019-11-01',
+        progress: 40,
+        project_id: 1,
+        belongsto: '',
+        mode: 1,
+        dx_s: 0,
+        dx_e: 0,
+        status: 0
+      }, {
+        id: '9',
+        name: '中項目3',
+        start: '2019-08-20',
+        end: '2019-09-20',
+        progress: 40,
+        project_id: '',
+        belongsto: 8,
+        mode: 2,
+        dx_s: 0,
+        dx_e: 0,
+        status: 1
+      }, {
+        id: '10',
+        name: '小項目4',
+        start: '2019-09-20',
+        end: '2019-11-01',
+        progress: 40,
+        project_id: '',
+        belongsto: 9,
+        mode: 3,
+        dx_s: 0,
+        dx_e: 0,
+        status: 2
+      }, {
+        id: '11',
+        name: '小項目4',
+        start: '2019-09-20',
+        end: '2019-11-01',
+        progress: 40,
+        project_id: '',
+        belongsto: 9,
+        mode: 3,
+        dx_s: 0,
+        dx_e: 0,
+        status: 2
+      }, {
+        id: '12',
+        name: '小項目4',
+        start: '2019-09-20',
+        end: '2019-11-01',
+        progress: 40,
+        project_id: '',
+        belongsto: 9,
+        mode: 3,
+        dx_s: 0,
+        dx_e: 0,
+        status: 2
+      }, {
+        id: '13',
+        name: '小項目4',
+        start: '2019-09-20',
+        end: '2019-11-01',
+        progress: 40,
+        project_id: '',
+        belongsto: 9,
+        mode: 3,
+        dx_s: 0,
+        dx_e: 0,
+        status: 2
+      }]
     }, {
       id: '2',
-      name: '処方',
-      start: '2019-01-01',
-      end: '2019-03-20',
-      progress: 80,
-      belongsto: 1,
-      mode: 2,
+      name: '案件名2',
+      start: '2019-04-01',
+      end: '2020-06-01',
       dx_s: 0,
       dx_e: 0,
-      status: 0 // dependencies: '1'
-
-    }, {
-      id: '3',
-      name: '処方検討',
-      start: '2019-01-01',
-      end: '2019-01-31',
-      progress: 40,
-      belongsto: 2,
-      mode: 3,
-      dx_s: 0,
-      dx_e: 0,
-      status: 0 // dependencies: '2'
-
-    }, {
-      id: '4',
-      name: '小項目1',
-      start: '2019-01-01',
-      end: '2019-01-08',
-      progress: 40,
-      belongsto: 3,
-      mode: 4,
-      dx_s: 0,
-      dx_e: 0,
-      status: 3
-    }, {
-      id: '5',
-      name: '小項目2',
-      start: '2019-01-08',
-      end: '2019-01-31',
-      progress: 40,
-      belongsto: 3,
-      mode: 4,
-      dx_s: 0,
-      dx_e: 0,
-      status: 1
-    }, {
-      id: '6',
-      name: '実使用アンケート(絶対評価)',
-      start: '2019-01-31',
-      end: '2019-02-20',
-      progress: 40,
-      belongsto: 2,
-      mode: 3,
-      dx_s: 0,
-      dx_e: 0,
-      dependencies: '3',
-      status: 0
-    }, {
-      id: '7',
-      name: '商品の性能評価',
-      start: '2019-02-20',
-      end: '2019-03-20',
-      progress: 40,
-      belongsto: 2,
-      mode: 3,
-      dx_s: 0,
-      dx_e: 0,
-      dependencies: '6',
-      status: 0
-    }, {
-      id: '8',
-      name: '容器',
-      start: '2019-03-20',
-      end: '2019-08-20',
-      progress: 40,
-      belongsto: 1,
-      mode: 2,
-      dx_s: 0,
-      dx_e: 0,
-      status: 0
-    }, {
-      id: '9',
-      name: '落下試験',
-      start: '2019-08-20',
-      end: '2019-11-01',
-      progress: 40,
-      belongsto: 1,
-      mode: 2,
-      dx_s: 0,
-      dx_e: 0,
-      status: 0
-    }, {
-      id: '10',
-      name: '小項目3',
-      start: '2019-08-20',
-      end: '2019-09-20',
-      progress: 40,
-      belongsto: 9,
-      mode: 4,
-      dx_s: 0,
-      dx_e: 0,
-      status: 1
-    }, {
-      id: '11',
-      name: '小項目4',
-      start: '2019-09-20',
-      end: '2019-11-01',
-      progress: 40,
-      belongsto: 9,
-      mode: 4,
-      dx_s: 0,
-      dx_e: 0,
-      status: 2
-    }, {
-      id: '12',
-      name: '小項目4',
-      start: '2019-09-20',
-      end: '2019-11-01',
-      progress: 40,
-      belongsto: 9,
-      mode: 4,
-      dx_s: 0,
-      dx_e: 0,
-      status: 2
-    }, {
-      id: '13',
-      name: '小項目4',
-      start: '2019-09-20',
-      end: '2019-11-01',
-      progress: 40,
-      belongsto: 9,
-      mode: 4,
-      dx_s: 0,
-      dx_e: 0,
-      status: 2
-    }, {
-      id: '14',
-      name: '小項目4',
-      start: '2019-09-20',
-      end: '2019-11-01',
-      progress: 40,
-      belongsto: 9,
-      mode: 4,
-      dx_s: 0,
-      dx_e: 0,
-      status: 2
-    }, {
-      id: '15',
-      name: '小項目4',
-      start: '2019-09-20',
-      end: '2019-11-01',
-      progress: 40,
-      belongsto: 9,
-      mode: 4,
-      dx_s: 0,
-      dx_e: 0,
-      status: 2
+      tasks: [{
+        id: '14',
+        name: '大項目4',
+        start: '2019-04-20',
+        end: '2019-11-01',
+        progress: 40,
+        project_id: 2,
+        belongsto: '',
+        mode: 1,
+        dx_s: 0,
+        dx_e: 0,
+        status: 0
+      }]
     }]
   },
   getters: {
@@ -111177,36 +111240,39 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       return (state.gantt_end - state.gantt_start) / 86400000;
     },
     getTasks: function getTasks(state) {
-      if (state.gantt_mode == "one") {
-        return state.tasks.filter(function (obj) {
-          return obj.mode != 1;
-        });
+      if (state.gantt_mode == "t") {
+        var project = state.projects.filter(function (obj) {
+          return obj.id == state.selected_pId;
+        })[0];
+        return project.tasks;
       } else {
-        return state.tasks.filter(function (obj) {
-          return obj.mode == 1;
-        });
+        return state.projects;
       }
     },
     getProjects: function getProjects(state) {
-      return state.tasks.filter(function (obj) {
-        return obj.mode == 1;
-      });
+      return state.projects;
     },
-    getTask4Report: function getTask4Report(state) {
-      return state.tasks.filter(function (obj) {
-        return obj.mode == 2;
+    getTaskByMode1: function getTaskByMode1(state) {
+      var project = state.projects.filter(function (obj) {
+        return obj.id == state.selected_pId;
+      })[0];
+      return project.tasks.filter(function (obj) {
+        return obj.mode == 1;
       });
     },
     getTasksByPId: function getTasksByPId(state) {
       return function (id) {
-        return state.tasks.filter(function (obj) {
-          return obj.mode != 1 && obj.belongsto == id;
-        });
+        return state.projects.filter(function (obj) {
+          return obj.id == id;
+        })[0]['tasks'];
       };
     },
     getTasksByStatus: function getTasksByStatus(state) {
+      var project = state.projects.filter(function (obj) {
+        return obj.id == state.selected_pId;
+      })[0];
       return function (status) {
-        return state.tasks.filter(function (obj) {
+        return project.tasks.filter(function (obj) {
           return obj.status == status;
         });
       };
@@ -111249,6 +111315,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     setGanttMode: function setGanttMode(state, mode) {
       state.gantt_mode = mode;
+    },
+    setSelectedPid: function setSelectedPid(state, id) {
+      state.selected_pId = id;
     },
     setTaskdx_s: function setTaskdx_s(state, obj) {
       state.tasks[obj.index].dx_s = obj.dx;

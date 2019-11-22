@@ -60,7 +60,7 @@ const router = new VueRouter({
          dates: [],
          gantt_start: '',
          gantt_end: '',
-         gantt_mode: 'all',
+         gantt_mode: 'p',
          option: {
              step: 24,
              header_height: 60,
@@ -69,192 +69,217 @@ const router = new VueRouter({
              bar_height: 25,
              padding: 18,
          },
-         tasks: [
+         selected_pId: '',
+         projects: [
              {
                  id: '1',
                  name: '案件名1',
                  start: '2019-01-01',
                  end: '2019-12-01',
-                 progress: 0,
-                 belongsto: 0,
-                 mode: 1,
                  dx_s: 0,
                  dx_e: 0,
-                 status: 0,
+                 tasks: [
+                     {
+                         id: '1',
+                         name: '処方',
+                         start: '2019-01-01',
+                         end: '2019-03-20',
+                         progress: 80,
+                         project_id: 1,
+                         belongsto: '',
+                         mode: 1,
+                         dx_s: 0,
+                         dx_e: 0,
+                         status: 0,
+                         // dependencies: '1'
+                     },
+                     {
+                         id: '2',
+                         name: '処方検討',
+                         start: '2019-01-01',
+                         end: '2019-01-31',
+                         progress: 40,
+                         project_id: '',
+                         belongsto: 1,
+                         mode: 2,
+                         dx_s: 0,
+                         dx_e: 0,
+                         status: 0,
+                         // dependencies: '2'
+                     },
+                     {
+                         id: '3',
+                         name: '小項目1',
+                         start: '2019-01-01',
+                         end: '2019-01-08',
+                         progress: 40,
+                         project_id: '',
+                         belongsto: 2,
+                         mode: 3,
+                         dx_s: 0,
+                         dx_e: 0,
+                         status: 3,
+                     },
+                     {
+                         id: '4',
+                         name: '小項目2',
+                         start: '2019-01-08',
+                         end: '2019-01-31',
+                         progress: 40,
+                         project_id: '',
+                         belongsto: 2,
+                         mode: 3,
+                         dx_s: 0,
+                         dx_e: 0,
+                         status: 1,
+                     },
+                     {
+                         id: '5',
+                         name: '実使用アンケート(絶対評価)',
+                         start: '2019-01-31',
+                         end: '2019-02-20',
+                         progress: 40,
+                         project_id: '',
+                         belongsto: 1,
+                         mode: 2,
+                         dx_s: 0,
+                         dx_e: 0,
+                         dependencies: '3',
+                         status: 0,
+                     },
+                     {
+                         id: '6',
+                         name: '商品の性能評価',
+                         start: '2019-02-20',
+                         end: '2019-03-20',
+                         progress: 40,
+                         project_id: '',
+                         belongsto: 1,
+                         mode: 2,
+                         dx_s: 0,
+                         dx_e: 0,
+                         dependencies: '6',
+                         status: 0,
+                     },
+                     {
+                         id: '7',
+                         name: '容器',
+                         start: '2019-03-20',
+                         end: '2019-08-20',
+                         progress: 40,
+                         project_id: 1,
+                         belongsto: '',
+                         mode: 1,
+                         dx_s: 0,
+                         dx_e: 0,
+                         status: 0,
+                     },
+                     {
+                         id: '8',
+                         name: '落下試験',
+                         start: '2019-08-20',
+                         end: '2019-11-01',
+                         progress: 40,
+                         project_id: 1,
+                         belongsto: '',
+                         mode: 1,
+                         dx_s: 0,
+                         dx_e: 0,
+                         status: 0,
+                     },
+                     {
+                         id: '9',
+                         name: '中項目3',
+                         start: '2019-08-20',
+                         end: '2019-09-20',
+                         progress: 40,
+                         project_id: '',
+                         belongsto: 8,
+                         mode: 2,
+                         dx_s: 0,
+                         dx_e: 0,
+                         status: 1,
+                     },
+                     {
+                         id: '10',
+                         name: '小項目4',
+                         start: '2019-09-20',
+                         end: '2019-11-01',
+                         progress: 40,
+                         project_id: '',
+                         belongsto: 9,
+                         mode: 3,
+                         dx_s: 0,
+                         dx_e: 0,
+                         status: 2,
+                     },
+                     {
+                         id: '11',
+                         name: '小項目4',
+                         start: '2019-09-20',
+                         end: '2019-11-01',
+                         progress: 40,
+                         project_id: '',
+                         belongsto: 9,
+                         mode: 3,
+                         dx_s: 0,
+                         dx_e: 0,
+                         status: 2,
+                     },
+                     {
+                         id: '12',
+                         name: '小項目4',
+                         start: '2019-09-20',
+                         end: '2019-11-01',
+                         progress: 40,
+                         project_id: '',
+                         belongsto: 9,
+                         mode: 3,
+                         dx_s: 0,
+                         dx_e: 0,
+                         status: 2,
+                     },
+                     {
+                         id: '13',
+                         name: '小項目4',
+                         start: '2019-09-20',
+                         end: '2019-11-01',
+                         progress: 40,
+                         project_id: '',
+                         belongsto: 9,
+                         mode: 3,
+                         dx_s: 0,
+                         dx_e: 0,
+                         status: 2,
+                     },
+                 ],
              },
              {
                  id: '2',
-                 name: '処方',
-                 start: '2019-01-01',
-                 end: '2019-03-20',
-                 progress: 80,
-                 belongsto: 1,
-                 mode: 2,
+                 name: '案件名2',
+                 start: '2019-04-01',
+                 end: '2020-06-01',
                  dx_s: 0,
                  dx_e: 0,
-                 status: 0,
-                 // dependencies: '1'
+                 tasks: [
+                     {
+                         id: '14',
+                         name: '大項目4',
+                         start: '2019-04-20',
+                         end: '2019-11-01',
+                         progress: 40,
+                         project_id: 2,
+                         belongsto: '',
+                         mode: 1,
+                         dx_s: 0,
+                         dx_e: 0,
+                         status: 0,
+                     },
+                 ],
              },
-             {
-                 id: '3',
-                 name: '処方検討',
-                 start: '2019-01-01',
-                 end: '2019-01-31',
-                 progress: 40,
-                 belongsto: 2,
-                 mode: 3,
-                 dx_s: 0,
-                 dx_e: 0,
-                 status: 0,
-                 // dependencies: '2'
-             },
-             {
-                 id: '4',
-                 name: '小項目1',
-                 start: '2019-01-01',
-                 end: '2019-01-08',
-                 progress: 40,
-                 belongsto: 3,
-                 mode: 4,
-                 dx_s: 0,
-                 dx_e: 0,
-                 status: 3,
-             },
-             {
-                 id: '5',
-                 name: '小項目2',
-                 start: '2019-01-08',
-                 end: '2019-01-31',
-                 progress: 40,
-                 belongsto: 3,
-                 mode: 4,
-                 dx_s: 0,
-                 dx_e: 0,
-                 status: 1,
-             },
-             {
-                 id: '6',
-                 name: '実使用アンケート(絶対評価)',
-                 start: '2019-01-31',
-                 end: '2019-02-20',
-                 progress: 40,
-                 belongsto: 2,
-                 mode: 3,
-                 dx_s: 0,
-                 dx_e: 0,
-                 dependencies: '3',
-                 status: 0,
-             },
-             {
-                 id: '7',
-                 name: '商品の性能評価',
-                 start: '2019-02-20',
-                 end: '2019-03-20',
-                 progress: 40,
-                 belongsto: 2,
-                 mode: 3,
-                 dx_s: 0,
-                 dx_e: 0,
-                 dependencies: '6',
-                 status: 0,
-             },
-             {
-                 id: '8',
-                 name: '容器',
-                 start: '2019-03-20',
-                 end: '2019-08-20',
-                 progress: 40,
-                 belongsto: 1,
-                 mode: 2,
-                 dx_s: 0,
-                 dx_e: 0,
-                 status: 0,
-             },
-             {
-                 id: '9',
-                 name: '落下試験',
-                 start: '2019-08-20',
-                 end: '2019-11-01',
-                 progress: 40,
-                 belongsto: 1,
-                 mode: 2,
-                 dx_s: 0,
-                 dx_e: 0,
-                 status: 0,
-             },
-             {
-                 id: '10',
-                 name: '小項目3',
-                 start: '2019-08-20',
-                 end: '2019-09-20',
-                 progress: 40,
-                 belongsto: 9,
-                 mode: 4,
-                 dx_s: 0,
-                 dx_e: 0,
-                 status: 1,
-             },
-             {
-                 id: '11',
-                 name: '小項目4',
-                 start: '2019-09-20',
-                 end: '2019-11-01',
-                 progress: 40,
-                 belongsto: 9,
-                 mode: 4,
-                 dx_s: 0,
-                 dx_e: 0,
-                 status: 2,
-             },
-             {
-                 id: '12',
-                 name: '小項目4',
-                 start: '2019-09-20',
-                 end: '2019-11-01',
-                 progress: 40,
-                 belongsto: 9,
-                 mode: 4,
-                 dx_s: 0,
-                 dx_e: 0,
-                 status: 2,
-             },
-             {
-                 id: '13',
-                 name: '小項目4',
-                 start: '2019-09-20',
-                 end: '2019-11-01',
-                 progress: 40,
-                 belongsto: 9,
-                 mode: 4,
-                 dx_s: 0,
-                 dx_e: 0,
-                 status: 2,
-             },
-             {
-                 id: '14',
-                 name: '小項目4',
-                 start: '2019-09-20',
-                 end: '2019-11-01',
-                 progress: 40,
-                 belongsto: 9,
-                 mode: 4,
-                 dx_s: 0,
-                 dx_e: 0,
-                 status: 2,
-             },
-             {
-                 id: '15',
-                 name: '小項目4',
-                 start: '2019-09-20',
-                 end: '2019-11-01',
-                 progress: 40,
-                 belongsto: 9,
-                 mode: 4,
-                 dx_s: 0,
-                 dx_e: 0,
-                 status: 2,
-             },
+
          ],
+
      },
      getters: {
          getDates (state) {
@@ -270,33 +295,36 @@ const router = new VueRouter({
              return (state.gantt_end - state.gantt_start) / 86400000;
          },
          getTasks (state) {
-             if (state.gantt_mode == "one") {
-                 return state.tasks.filter((obj)=>{
-                     return obj.mode != 1;
-                 })
+             if (state.gantt_mode == "t") {
+                 var project = state.projects.filter((obj)=>{
+                     return obj.id == state.selected_pId;
+                 })[0];
+                 return project.tasks;
              }else{
-                 return state.tasks.filter((obj)=>{
-                     return obj.mode == 1;
-                 })
+                 return state.projects;
              }
          },
          getProjects (state) {
-             return state.tasks.filter((obj)=>{
+             return state.projects;
+         },
+         getTaskByMode1 (state) {
+             var project = state.projects.filter((obj)=>{
+                 return obj.id == state.selected_pId;
+             })[0];
+             return project.tasks.filter((obj)=>{
                  return obj.mode == 1;
              })
          },
-         getTask4Report (state) {
-             return state.tasks.filter((obj)=>{
-                 return obj.mode == 2;
-             })
-         },
          getTasksByPId (state) {
-             return id => state.tasks.filter((obj)=>{
-                 return obj.mode != 1 && obj.belongsto == id;
-             })
+             return id => state.projects.filter((obj)=>{
+                 return obj.id == id;
+             })[0]['tasks'];
          },
          getTasksByStatus (state) {
-             return status => state.tasks.filter((obj)=>{
+             var project = state.projects.filter((obj)=>{
+                 return obj.id == state.selected_pId;
+             })[0];
+             return status => project.tasks.filter((obj)=>{
                  return obj.status == status;
              })
          },
@@ -344,6 +372,9 @@ const router = new VueRouter({
          },
          setGanttMode (state, mode) {
              state.gantt_mode = mode;
+         },
+         setSelectedPid (state, id) {
+             state.selected_pId = id;
          },
          setTaskdx_s (state, obj) {
              state.tasks[obj.index].dx_s = obj.dx

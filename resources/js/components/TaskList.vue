@@ -11,7 +11,7 @@
                 </div>
             </div>
 
-            <div class="table-responsive">
+            <div class="table-responsive" style="max-height: 550px;">
                 <table class="table text-nowrap table-hover table-bordered addTop">
                     <thead>
                         <tr class="bg-info text-white">
@@ -29,7 +29,7 @@
                     <tbody>
                         <tr v-for="(task,index) in tasks">
                             <td class="align-middle text-center"><input type="checkbox" class="form-control"></td>
-                            <td>2610</td>
+                            <td>#{{task.id}}</td>
                             <td class="align-middle text-center">機能</td>
                             <td class="align-middle text-center">新規</td>
                             <td class="align-middle text-center">高い</td>
