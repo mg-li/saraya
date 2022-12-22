@@ -30,7 +30,7 @@
         "gantt-elastic": "^1.0.3",
         "gantt-elastic-header": "^0.1.11",
         "https": "^1.0.0",
-        "jsonwebtoken": "^8.5.1",
+        "jsonwebtoken": "^9.0.0",
         "laravel-echo": "^1.5.4",
         "moment": "^2.24.0",
         "querystring": "^0.2.0",
